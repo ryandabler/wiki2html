@@ -1,0 +1,11 @@
+{
+  "name": "wiki2js",
+  "version": "0.0.0",
+  "description": "A Javascript parser that converts wikitext markup into HTML",
+  "main": "parser.js",
+  "scripts": {
+    "test": "mocha --exit"
+  },
+  "author": "Ryan Dabler",
+  "license": "GPL-3.0"
+}
