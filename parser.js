@@ -1,4 +1,4 @@
-export default class MWParser {
+class Parser {
     static _parseHeaders(wikimarkup) {
         let text = wikimarkup;
         for (let n = 6; n > 0; n--) {
@@ -10,7 +10,9 @@ export default class MWParser {
     
     static parse(wikimarkup) {
         let text = wikimarkup;
-        text = MWParser._parseHeaders(text);
+        text = this._parseHeaders(text);
         return text;
     }
 }
+
+module.exports = { Parser };
