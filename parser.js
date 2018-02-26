@@ -1,3 +1,5 @@
+"use strict";
+
 class Parser {
     constructor({
         pageList = [],
@@ -32,7 +34,7 @@ class Parser {
 
             return `<a href='${newP1}'>${p3 ? p3 : p1}</a>`
         }).bind(this);
-
+        
         let text = wikimarkup;
         text = text.replace(/\[{2}([^\[\]\|]+)(\|(.*))?\]{2}/g, createLink);
         return text;
