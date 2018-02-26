@@ -7,6 +7,7 @@ const mocha = require("mocha");
 const { Parser } = require("../parser.js");
 
 const expect = chai.expect;
+const parser = new Parser();
 
 ////////////////////////////
 // Test
@@ -24,7 +25,7 @@ describe("Parser", function() {
     ====H====
     =====I=====
     ======J======`;
-            const result = Parser._parseHeaders(wikitext);
+            const result = parser._parseHeaders(wikitext);
             const answer = `<h1>A</h1>
     <h2>B</h2>
     <h3>C</h3>
@@ -41,7 +42,7 @@ describe("Parser", function() {
         it("Should not parse malformed headers", function() {
             const wikitext = `=A=a
     b==B==`;
-            const result = Parser._parseHeaders(wikitext);
+            const result = parser._parseHeaders(wikitext);
             const answer = `=A=a
     b==B==`;
             expect(result).to.equal(answer);
@@ -51,7 +52,7 @@ describe("Parser", function() {
             const wikitext = `===
     ==a===
     === =`;
-            const result = Parser._parseHeaders(wikitext);
+            const result = parser._parseHeaders(wikitext);
             const answer = `<h1>=</h1>
     <h2>a=</h2>
     <h1>== </h1>`;
@@ -62,7 +63,8 @@ describe("Parser", function() {
     describe("_parseLinks", function() {
         it.only("Should parse links without piping", function() {
             const wikitext = ["[[abc]]", "[[pip_ing]]", "[[aba$ip]]", "[[aaa()bbb]]", "[[a b]]"];
-            const result   = wikitext.map(Parser._parseLinks);
+            const parseFn  = parser._parseLinks.bind(parser);
+            const result   = wikitext.map(parseFn);
             const answers  = [
                                 "<a href='Abc'>abc</a>",
                                 "<a href='Pip_ing'>pip_ing</a>",
