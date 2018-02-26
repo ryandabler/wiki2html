@@ -3,7 +3,8 @@ class Parser {
         pageList = [],
         server = { protocol: "http", subdomain: "www", domain: "wiki", tld: "com", path: "" },
         interwiki = [],
-        categoryNS = "Category"
+        categoryNS = "Category",
+        allowLowerCase = false
     } = {}) {
         this.settings = { pageList, server, interwiki, categoryNS }; 
     }
