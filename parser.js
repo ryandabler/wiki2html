@@ -1,4 +1,13 @@
 class Parser {
+    constructor({
+        pageList = [],
+        server = { protocol: "http", subdomain: "www", domain: "wiki", tld: "com", path: "" },
+        interwiki = [],
+        categoryNS = "Category"
+    } = {}) {
+        this.settings = { pageList, server, interwiki, categoryNS }; 
+    }
+
     static _parseHeaders(wikimarkup) {
         let text = wikimarkup;
         for (let n = 6; n > 0; n--) {
