@@ -6,7 +6,7 @@ class Parser {
         categoryNS = "Category",
         allowLowerCase = false
     } = {}) {
-        this.settings = { pageList, server, interwiki, categoryNS }; 
+        this.settings = { pageList, server, interwiki, categoryNS, allowLowerCase };
     }
 
     getBaseURL() {
