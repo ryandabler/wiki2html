@@ -24,13 +24,14 @@ class Parser {
     }
     
     _parseLinks(wikimarkup) {
-        function createLink(match, p1, p2, p3, offset, string) {
+        const createLink = (function cl(match, p1, p2, p3, offset, string) {
             // Process the href portion of the link
-            let capitalP1 = p1.charAt(0).toUpperCase() + p1.slice(1);
-            capitalP1 = capitalP1.replace(" ", "_");
+            let newP1 = this.settings.allowLowerCase ? p1
+                                                     : p1.charAt(0).toUpperCase() + p1.slice(1);
+            newP1 = newP1.replace(" ", "_");
 
-            return `<a href='${capitalP1}'>${p3 ? p3 : p1}</a>`
-        }
+            return `<a href='${newP1}'>${p3 ? p3 : p1}</a>`
+        }).bind(this);
 
         let text = wikimarkup;
         text = text.replace(/\[{2}([^\[\]\|]+)(\|(.*))?\]{2}/g, createLink);
