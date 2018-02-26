@@ -8,9 +8,24 @@ class Parser {
         return text;
     }
     
+    static _parseLinks(wikimarkup) {
+        function createLink(match, p1, p2, p3, offset, string) {
+            // Process the href portion of the link
+            let capitalP1 = p1.charAt(0).toUpperCase() + p1.slice(1);
+            capitalP1 = capitalP1.replace(" ", "_");
+
+            return `<a href='${capitalP1}'>${p3 ? p3 : p1}</a>`
+        }
+
+        let text = wikimarkup;
+        text = text.replace(/\[{2}([^\[\]\|]+)(\|(.*))?\]{2}/g, createLink);
+        return text;
+    }
+
     static parse(wikimarkup) {
         let text = wikimarkup;
         text = this._parseHeaders(text);
+        text = this._parseLinks(text);
         return text;
     }
 }
