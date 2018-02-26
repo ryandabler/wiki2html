@@ -8,6 +8,11 @@ class Parser {
         this.settings = { pageList, server, interwiki, categoryNS }; 
     }
 
+    getBaseURL() {
+        const { protocol, subdomain, domain, tld, path } = this.settings.server;
+        return `${protocol}://${subdomain}.${domain}.${tld}/${path}`;
+    }
+
     static _parseHeaders(wikimarkup) {
         let text = wikimarkup;
         for (let n = 6; n > 0; n--) {
