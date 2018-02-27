@@ -63,7 +63,7 @@ b==B==`;
         });
     });
 
-    describe("_parseLinks", function() {
+    describe("_parseL_parseInteralLinksinks", function() {
         it("Should parse simple intrawiki links", function() {
             const wikitext = [
                                 "[[abc]]",
@@ -74,7 +74,7 @@ b==B==`;
                                 "[[abc|def]]",
                 "[[a b|]]"
                              ];
-            const parseFn  = parser._parseLinks.bind(parser);
+            const parseFn  = parser._parseInteralLinks.bind(parser);
             const result   = wikitext.map(parseFn);
             const url      = parser.getBaseURL();
             const answers  = [
@@ -138,7 +138,7 @@ b==B==`;
                 "[[s:zzz|]]",
                 "[[s:es:aaa|]]"
             ];
-            const parseFn  = parser._parseLinks.bind(parser);
+            const parseFn  = parser._parseInteralLinks.bind(parser);
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "<a href='http://en.wikisource.org/wiki/abc'>s:abc</a>",
@@ -185,7 +185,7 @@ b==B==`;
                 "[[:fr:abc|def]]"
 
             ];
-            const parseFn  = parser._parseLinks.bind(parser);
+            const parseFn  = parser._parseInteralLinks.bind(parser);
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "",
@@ -229,7 +229,7 @@ b==B==`;
                 "[[:Category:Test]]",
                 "[[Template:Test|]]"
             ];
-            const parseFn  = parser._parseLinks.bind(parser);
+            const parseFn  = parser._parseInteralLinks.bind(parser);
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "<a href='http://en.wikipedia.org/wiki/Template:Test'>Template:Test</a>",

@@ -59,7 +59,7 @@ class Parser {
         return text;
     }
     
-    _parseLinks(wikimarkup) {
+    _parseInteralLinks(wikimarkup) {
         const createLink = (function cl(match, p1, p2, p3, p4, p5, p6, offset, string) {
             const server = JSON.parse(JSON.stringify(this.settings.server));
             let newP4 = p4,
@@ -116,7 +116,7 @@ class Parser {
     parse(wikimarkup) {
         let text = wikimarkup;
         text = this._parseHeaders(text);
-        text = this._parseLinks(text);
+        text = this._parseInteralLinks(text);
         return text;
     }
 }
