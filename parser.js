@@ -1,5 +1,15 @@
 "use strict";
 
+class Page {
+    constructor(wikimarkup) {
+        this.wikimarkup = wikimarkup;
+        this.html = wikimarkup;
+        this.categoryList = [];
+        this.subdomainLinks = [];
+        this.unnamedExternalLinks = [];
+    }
+}
+
 class Parser {
     constructor({
         pageList = [],
