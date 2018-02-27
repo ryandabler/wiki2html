@@ -26,17 +26,17 @@ class Parser {
     }
     
     _parseLinks(wikimarkup) {
-        const createLink = (function cl(match, p1, p2, p3, p4, p5, offset, string) {
+        const createLink = (function cl(match, p1, p2, p3, p4, p5, p6, offset, string) {
             // Process the href portion of the link
-            let newP3 = this.settings.allowLowerCase ? p3
-                                                     : p3.charAt(0).toUpperCase() + p3.slice(1);
-            newP3 = newP3.replace(" ", "_");
+            let newP4 = this.settings.allowLowerCase ? p4
+                                                     : p4.charAt(0).toUpperCase() + p4.slice(1);
+            newP4 = newP4.replace(" ", "_");
 
-            return `<a href='${this.getBaseURL() + "/" + newP3}'>${p5 ? p5 : p3}</a>`;
+            return `<a href='${this.getBaseURL() + "/" + newP4}'>${p6 ? p6 : p4}</a>`;
         }).bind(this);
         
         let text = wikimarkup;
-        text = text.replace(/\[{2}:?(?:([^\[\]\|:]+):)?(?:([^\[\]\|:]+):)?([^\[\]\|:]+)(?:(\|)(.*))?\]{2}/g, createLink);
+        text = text.replace(/\[{2}:?((?:([^\[\]\|:]+):)?(?:([^\[\]\|:]+):)?)([^\[\]\|:]+)(?:(\|)(.*))?\]{2}/g, createLink);
         return text;
     }
 
