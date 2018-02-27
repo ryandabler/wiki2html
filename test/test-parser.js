@@ -63,7 +63,7 @@ b==B==`;
         });
     });
 
-    describe("_parseL_parseInteralLinksinks", function() {
+    describe("parseInteralLinks", function() {
         it("Should parse simple intrawiki links", function() {
             const wikitext = [
                                 "[[abc]]",
