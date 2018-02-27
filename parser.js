@@ -32,7 +32,7 @@ class Parser {
                                                      : p3.charAt(0).toUpperCase() + p3.slice(1);
             newP3 = newP3.replace(" ", "_");
 
-            return `<a href='${newP3}'>${p4 ? p4 : p3}</a>`;
+            return `<a href='${this.getBaseURL() + "/" + newP3}'>${p4 ? p4 : p3}</a>`;
         }).bind(this);
         
         let text = wikimarkup;
