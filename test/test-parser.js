@@ -72,7 +72,7 @@ b==B==`;
                                 "[[aaa()bbb]]",
                                 "[[a b]]",
                                 "[[abc|def]]",
-                "[[a b|]]"
+                                "[[a b|]]"
                              ];
             const parseFn  = parser._parseInteralLinks.bind(parser);
             const result   = wikitext.map(parseFn);
