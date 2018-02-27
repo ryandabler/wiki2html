@@ -11,8 +11,8 @@ class Parser {
         this.settings = { pageList, server, interwiki, categoryNS, allowLowerCase };
     }
 
-    getBaseURL() {
-        const { protocol, subdomain, domain, tld, path } = this.settings.server;
+    getBaseURL(server = this.settings.server) {
+        const { protocol, subdomain, domain, tld, path } = server;
         return `${protocol}://${subdomain}.${domain}.${tld}/${path}`;
     }
 
