@@ -7,12 +7,15 @@ const mocha = require("mocha");
 const { Parser } = require("../parser.js");
 
 const expect = chai.expect;
-const parser = new Parser();
 
 ////////////////////////////
 // Test
 ////////////////////////////
 describe("Parser", function() {
+    beforeEach(function() {
+        return parser = new Parser();
+    });
+
     describe("_parseHeaders", function() {
         it("Should parse well-formed headers", function() {
             const wikitext = `=A=
