@@ -61,16 +61,27 @@ b==B==`;
     });
 
     describe("_parseLinks", function() {
-        it("Should parse links without piping", function() {
-            const wikitext = ["[[abc]]", "[[pip_ing]]", "[[aba$ip]]", "[[aaa()bbb]]", "[[a b]]"];
+        it("Should parse existent links without colons", function() {
+            const wikitext = [
+                                "[[abc]]",
+                                "[[pip_ing]]",
+                                "[[aba$ip]]",
+                                "[[aaa()bbb]]",
+                                "[[a b]]",
+                                "[[abc|def]]",
+                                "[[a b|]]"
+                             ];
             const parseFn  = parser._parseLinks.bind(parser);
             const result   = wikitext.map(parseFn);
+            const url      = parser.getBaseURL();
             const answers  = [
-                                "<a href='Abc'>abc</a>",
-                                "<a href='Pip_ing'>pip_ing</a>",
-                                "<a href='Aba$ip'>aba$ip</a>",
-                                "<a href='Aaa()bbb'>aaa()bbb</a>",
-                                "<a href='A_b'>a b</a>"
+                                `<a href='${url}/Abc'>abc</a>`,
+                                `<a href='${url}/Pip_ing'>pip_ing</a>`,
+                                `<a href='${url}/Aba$ip'>aba$ip</a>`,
+                                `<a href='${url}/Aaa()bbb'>aaa()bbb</a>`,
+                                `<a href='${url}/A_b'>a b</a>`,
+                                `<a href='${url}/Abc'>def</a>`,
+                                `<a href='${url}/A_b'>a b</a>`
                              ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
