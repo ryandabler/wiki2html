@@ -84,37 +84,31 @@ class Parser {
     }
 
     _parseDoubleBrackets(wikimarkup) {
-        const createLink = (function cl(match, p1, p2, p3, p4, p5, p6, offset, string) {
+        const createLink = (function cl(match, fullName, piping, offset, string) {
             const server = JSON.parse(JSON.stringify(this.settings.server));
-            const segments = p1.split(":");
+            const segments = fullName.split(":");
             const sister   = this.isValidSisterWiki(segments[0]);
 
             if (sister) {
                 const { domain, tld } = sister.server;
                 Object.assign(server, { domain, tld });
-                const fullName = `${p1}${p4}`;
                 
-                return this._createLink(server, fullName, p6);
-            } else if (p1 !== "" && this.isValidSubdomain(segments[0])) {
+                return this._createLink(server, fullName, piping);
+            } else if (this.isValidSubdomain(segments[0])) {
                 Object.assign(server, { subdomain: segments[0] });
-                const fullName = `${p1}${p4}`;
                 
                 return match.charAt(2) === ":" ? 
-                    this._createLink(server, fullName, p6) : "";
-            } else if (p1 !== "" && segments[0] === this.settings.categoryNS) {
-                const fullName = `${p1}${p4}`;
-
+                    this._createLink(server, fullName, piping) : "";
+            } else if (segments[0] === this.settings.categoryNS) {
                 return match.charAt(2) === ":" ?
-                    this._createLink(server, fullName, p6, false) : "";
+                    this._createLink(server, fullName, piping, false) : "";
             } else {
-                const fullName = `${p1}${p4}`;
-
-                return this._createLink(server, fullName, p6, false, true);
+                return this._createLink(server, fullName, piping, false, true);
             }
         }).bind(this);
         
         let text = wikimarkup;
-        text = text.replace(/\[{2}:?((?:([^\[\]\|:]+):)?(?:([^\[\]\|:]+):)?)([^\[\]\|:]+)(?:(\|)(.*))?\]{2}/g, createLink);
+        text = text.replace(/\[{2}:?((?:[^\[\]\|:]+:)*[^\[\]\|:]+)(?:\|(.*))?\]{2}/g, createLink);
         return text;
     }
 
