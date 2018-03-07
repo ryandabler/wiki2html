@@ -43,13 +43,13 @@ class Parser {
         return subdomain ? true : false;
     }
 
-    _pipeLink(newP6, p5, p6) {
-        if (p5 && p6 !== "") {
+    _pipeLink(original, p6) {
+        if (p6) {
             return p6;
         }
 
-        if (p5 && p6 === "") {
-            const segments = newP6.split(":");
+        if (p6 === "") {
+            const segments = original.split(":");
             if (segments.length > 1) {
                 segments.shift();
             }
@@ -57,7 +57,7 @@ class Parser {
             return segments.join(":");
         }
 
-        return newP6;
+        return original;
     }
     
     _parseHeaders(wikimarkup) {
@@ -68,54 +68,49 @@ class Parser {
         }
         return text;
     }
-    
-    _parseInteralLinks(wikimarkup) {
+
+    _capitalizeFirstLetter(text) {
+        return this.settings.allowLowerCase ? text
+                                            : text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    _createLink(server, fullName, piping, popFirstSegment=true, capitalizationApplies=false) {
+        let newP4 = popFirstSegment ? fullName.replace(" ", "_").split(":").splice(1).join(":")
+                                    : fullName.replace(" ", "_");
+        newP4 = capitalizationApplies ? this._capitalizeFirstLetter(newP4) : newP4;
+        const newP6 = this._pipeLink(fullName, piping);
+
+        return `<a href='${this.getBaseURL(server) + "/" + newP4}'>${newP6 ? newP6 : newP4}</a>`;
+    }
+
+    _parseDoubleBrackets(wikimarkup) {
         const createLink = (function cl(match, p1, p2, p3, p4, p5, p6, offset, string) {
             const server = JSON.parse(JSON.stringify(this.settings.server));
-            let newP4 = p4,
-                newP6 = p6;
+            const segments = p1.split(":");
+            const sister   = this.isValidSisterWiki(segments[0]);
 
-            if (p1) {
-                // We have a link with a colon - could be interwiki, inter-subdomain, or
-                // internamespace
-                const segments = p1.split(":");
-                const firstSeg = segments[0];
-                const sister   = this.isValidSisterWiki(firstSeg);
+            if (sister) {
+                const { domain, tld } = sister.server;
+                Object.assign(server, { domain, tld });
+                const fullName = `${p1}${p4}`;
+                
+                return this._createLink(server, fullName, p6);
+            } else if (p1 !== "" && this.isValidSubdomain(segments[0])) {
+                Object.assign(server, { subdomain: segments[0] });
+                const fullName = `${p1}${p4}`;
+                
+                return match.charAt(2) === ":" ? 
+                    this._createLink(server, fullName, p6) : "";
+            } else if (p1 !== "" && segments[0] === this.settings.categoryNS) {
+                const fullName = `${p1}${p4}`;
 
-                newP6 = `${p1}${p4}`;
-                if (sister) {
-                    const { domain, tld } = sister.server;
-                    Object.assign(server, { domain, tld });
-                    newP4 = p3 ? `${p3}:${p4}` : newP4;
-                } else if (this.isValidSubdomain(firstSeg)) {
-                    Object.assign(server, { subdomain: firstSeg });
-                    
-                    // Subdomain links don't display unless they are preceded by a ":"
-                    if (match.charAt(2) !== ":") return "";
-                } else if (firstSeg === this.settings.categoryNS) {
-                    // We are linking to a category. If first character of match is a ":"
-                    // we will display it, otherwise we will return an empty string
-                    if (match.charAt(2) === ":") {
-                        newP4 = `${p1}${p4}`;
-                    } else {
-                        return "";
-                    }
-                } else {
-                    newP6 = `${p1}${p4}`;
-                    newP4 = `${p1}${p4}`;
-                    newP4 = this.settings.allowLowerCase ? newP4
-                                                         : newP4.charAt(0).toUpperCase() + newP4.slice(1);
-                }
+                return match.charAt(2) === ":" ?
+                    this._createLink(server, fullName, p6, false) : "";
             } else {
-                // Plain intra-wiki link
-                newP4 = this.settings.allowLowerCase ? p4
-                                                     : p4.charAt(0).toUpperCase() + p4.slice(1);
-            }
+                const fullName = `${p1}${p4}`;
 
-            // Process newP4
-            newP4 = newP4.replace(" ", "_");
-            newP6 = this._pipeLink(newP6, p5, p6);
-            return `<a href='${this.getBaseURL(server) + "/" + newP4}'>${newP6 ? newP6 : p4}</a>`;
+                return this._createLink(server, fullName, p6, false, true);
+            }
         }).bind(this);
         
         let text = wikimarkup;
