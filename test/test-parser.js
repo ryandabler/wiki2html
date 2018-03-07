@@ -180,7 +180,6 @@ b==B==`;
             const wikitext = [
                 "[[fr:abc]]",
                 "[[:fr:def]]",
-                "[[zzz:Zyz]]",
                 "[[:fr:abc|]]",
                 "[[:fr:abc|def]]"
 
@@ -190,7 +189,6 @@ b==B==`;
             const answers  = [
                 "",
                 "<a href='http://fr.wikipedia.org/wiki/def'>fr:def</a>",
-                "<a href='http://en.wikipedia.org/wiki/Zzz:Zyz'>zzz:Zyz</a>",
                 "<a href='http://fr.wikipedia.org/wiki/abc'>abc</a>",
                 "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>"
             ];
