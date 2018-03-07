@@ -30,7 +30,7 @@ class Parser {
         const found = this.settings.interwiki.filter(item => {
             return item.indicators.find(indicator => indicator === designation) ? true : false;
         });
-        return found ? found[0] : false;
+        return found.length ? found[0] : false;
     }
 
     isValidSubdomain(designation) {
