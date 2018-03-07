@@ -68,7 +68,7 @@ b==B==`;
             const wikitext = [
                                 "[[abc]]",
                                 "[[pip_ing]]",
-                                "[[aba$ip]]",
+                                "[[Aba$ip]]",
                                 "[[aaa()bbb]]",
                                 "[[a b]]",
                                 "[[abc|def]]",
@@ -80,7 +80,7 @@ b==B==`;
             const answers  = [
                                 `<a href='${url}/Abc'>abc</a>`,
                                 `<a href='${url}/Pip_ing'>pip_ing</a>`,
-                                `<a href='${url}/Aba$ip'>aba$ip</a>`,
+                                `<a href='${url}/Aba$ip'>Aba$ip</a>`,
                                 `<a href='${url}/Aaa()bbb'>aaa()bbb</a>`,
                                 `<a href='${url}/A_b'>a b</a>`,
                                 `<a href='${url}/Abc'>def</a>`,
