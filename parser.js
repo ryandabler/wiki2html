@@ -13,7 +13,7 @@ class Page {
 class Parser {
     constructor({
         pageList = [],
-        server = { protocol: "http", subdomain: "www", domain: "wiki", tld: "com", path: "" },
+        server = { protocol: "http", subdomain: "www", domain: "wiki", tld: "com", path: "wiki" },
         interwiki = [],
         categoryNS = "Category",
         allowLowerCase = false
