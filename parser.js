@@ -111,12 +111,12 @@ class Parser {
                                   createLink);
     }
 
- 
     parse(wikimarkup) {
+        const document = new Page(wikimarkup);
         let text = wikimarkup;
-        text = this._parseHeaders(text);
-        text = this._parseInteralLinks(text);
-        return text;
+        document.html = this._parseHeaders(document.html);
+        document.html = this._parseInteralLinks(document.html);
+        return document;
     }
 }
 
