@@ -107,11 +107,11 @@ class Parser {
             }
         }).bind(this);
         
-        let text = wikimarkup;
-        text = text.replace(/\[{2}:?((?:[^\[\]\|:]+:)*[^\[\]\|:]+)(?:\|(.*))?\]{2}/g, createLink);
-        return text;
+        return wikimarkup.replace(/\[{2}:?((?:[^\[\]\|:]+:)*[^\[\]\|:]+)(?:\|(.*))?\]{2}/g,
+                                  createLink);
     }
 
+ 
     parse(wikimarkup) {
         let text = wikimarkup;
         text = this._parseHeaders(text);
