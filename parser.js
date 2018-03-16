@@ -11,7 +11,7 @@ class Page {
 
     addUnnamedExternalLink(fullUrl) {
         return this.unnamedExternalLinks.push(fullUrl);
-}
+    }
 }
 
 class Parser {
@@ -113,6 +113,23 @@ class Parser {
         
         return wikimarkup.replace(/\[{2}:?((?:[^\[\]\|:]+:)*[^\[\]\|:]+)(?:\|(.*))?\]{2}/g,
                                   createLink);
+    }
+
+    _parseSingleBrackets(wikimarkup, page) {
+        const createLink = (match, scheme, separator, url, piping, offset, string) => {
+            const fullURL = scheme + separator + url;
+            
+            if (piping) {
+                return `<a href=${fullURL}>${piping}</a>`;
+            } else {
+                const length = page.addUnnamedExternalLink(fullUrl);
+                return `<a href=${fullURL}>[${length}]</a>`;
+            }
+        }
+        
+        let text = wikimarkup;
+        text = text.replace(/\[(https?(?=:\/{2})|ftps?(?=:\/{2})|ircs?(?=:\/{2})|news(?=:\/{2})|gopher(?=:\/{2})|mailto(?!:\/+))(:\/{0,2})([^\/\s]+)(?: ?([^\[\]]*))*?\]/g, createLink);
+        return text;
     }
 
     parse(wikimarkup) {
