@@ -8,6 +8,10 @@ class Page {
         this.subdomainLinks = [];
         this.unnamedExternalLinks = [];
     }
+
+    addUnnamedExternalLink(fullUrl) {
+        return this.unnamedExternalLinks.push(fullUrl);
+}
 }
 
 class Parser {
