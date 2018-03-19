@@ -71,8 +71,7 @@ b==B==`;
                                 "[[Aba$ip]]",
                                 "[[aaa()bbb]]",
                                 "[[a b]]",
-                                "[[abc|def]]",
-                                "[[a b|]]"
+                                "[[abc|def]]"
                              ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
@@ -83,8 +82,7 @@ b==B==`;
                                 `<a href='${url}/Aba$ip'>Aba$ip</a>`,
                                 `<a href='${url}/Aaa()bbb'>aaa()bbb</a>`,
                                 `<a href='${url}/A_b'>a b</a>`,
-                                `<a href='${url}/Abc'>def</a>`,
-                                `<a href='${url}/A_b'>a b</a>`
+                                `<a href='${url}/Abc'>def</a>`
                              ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
