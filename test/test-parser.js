@@ -239,4 +239,37 @@ b==B==`;
             });
         });
     });
+
+    describe("_parseSingleBrackets", function() {
+        it("Should parse properly formed external links", function() {
+            const wikitext = [
+                "[http://www.google.com]",
+                "[https://www.google.com Google]",
+                "[irc://irc.google.com]\n[ircs://irc.google.com]",
+                "[news://www.newster.com New test]",
+                "[ftp://ftp.google.com Ftp]",
+                "[ftps://ftp.google.com]",
+                "[gopher://gopher.com gopher://]",
+                "[mailto:test@test.com E-mail]"
+            ];
+            const parseFn  = parser._parseSingleBrackets.bind(parser);
+            const result   = wikitext.map(text => {
+                const pg = new Page(text);
+                return parseFn(text, pg);
+            });
+            const answers  = [
+                "<a href='http://www.google.com'>[1]</a>",
+                "<a href='https://www.google.com'>Google</a>",
+                "<a href='irc://irc.google.com'>[1]</a>\n<a href='ircs://irc.google.com'>[2]</a>",
+                "<a href='news://www.newster.com'>New test</a>",
+                "<a href='ftp://ftp.google.com'>Ftp</a>",
+                "<a href='ftps://ftp.google.com'>[1]</a>",
+                "<a href='gopher://gopher.com'>gopher://</a>",
+                "<a href='mailto:test@test.com'>E-mail</a>"
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    });
 });
