@@ -134,7 +134,8 @@ b==B==`;
                 "[[wikiquote:elf]]",
                 "[[s:zzz|bbb]]",
                 "[[s:zzz|]]",
-                "[[s:es:aaa|]]"
+,
+                "[[wikiquote:de:Categorie:Test|]]"
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
@@ -146,8 +147,8 @@ b==B==`;
                 "<a href='http://en.wikiquote.org/wiki/elf'>wikiquote:elf</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>bbb</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>zzz</a>",
-                "<a href='http://en.wikisource.org/wiki/es:aaa'>es:aaa</a>"
-            ];
+                "<a href='http://en.wikisource.org/wiki/es:aaa'>es:aaa</a>",
+                "<a href='http://en.wikiquote.org/wiki/de:Categorie:Test'>de:Categorie:Test</a>"            ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
             });
@@ -179,7 +180,8 @@ b==B==`;
                 "[[fr:abc]]",
                 "[[:fr:def]]",
                 "[[:fr:abc|]]",
-                "[[:fr:abc|def]]"
+                "[[:fr:abc|def]]",
+                "[[:fr:Template:Test|]]"
 
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
@@ -188,7 +190,8 @@ b==B==`;
                 "",
                 "<a href='http://fr.wikipedia.org/wiki/def'>fr:def</a>",
                 "<a href='http://fr.wikipedia.org/wiki/abc'>abc</a>",
-                "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>"
+                "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>",
+                "<a href='http://fr.wikipedia.org/wiki/Template:Test'>Template:Test</a>"
             ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
