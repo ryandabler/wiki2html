@@ -4,7 +4,7 @@
 const chai  = require("chai");
 const mocha = require("mocha");
 
-const { Parser } = require("../parser.js");
+const { Parser, Page } = require("../parser.js");
 
 const expect = chai.expect;
 
