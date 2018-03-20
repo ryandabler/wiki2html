@@ -132,7 +132,6 @@ b==B==`;
                 "[[wikiquote:elf]]",
                 "[[s:zzz|bbb]]",
                 "[[s:zzz|]]",
-,
                 "[[wikiquote:de:Categorie:Test|]]"
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
@@ -145,7 +144,6 @@ b==B==`;
                 "<a href='http://en.wikiquote.org/wiki/elf'>wikiquote:elf</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>bbb</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>zzz</a>",
-                "<a href='http://en.wikisource.org/wiki/es:aaa'>es:aaa</a>",
                 "<a href='http://en.wikiquote.org/wiki/de:Categorie:Test'>de:Categorie:Test</a>"            ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
