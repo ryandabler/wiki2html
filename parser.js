@@ -120,10 +120,10 @@ class Parser {
             const fullURL = scheme + separator + url;
             
             if (piping) {
-                return `<a href=${fullURL}>${piping}</a>`;
+                return `<a href="${fullURL}">${piping}</a>`;
             } else {
                 const length = page.addUnnamedExternalLink(fullURL);
-                return `<a href=${fullURL}>[${length}]</a>`;
+                return `<a href="${fullURL}">[${length}]</a>`;
             }
         }
         
