@@ -271,5 +271,26 @@ b==B==`;
                 expect(item).to.equal(answers[idx]);
             });
         });
+
+        it("Should not parse external links without proper URI scheme", function() {
+            const wikitext = [
+                "[www.google.com]",
+                "[flm://www.google.com Test]",
+                "[file://www.google.com/a.pdf a]"
+            ];
+            const parseFn  = parser._parseSingleBrackets.bind(parser);
+            const result   = wikitext.map(text => {
+                const pg = new Page(text);
+                return parseFn(text, pg);
+            });
+            const answers  = [
+                "[www.google.com]",
+                "[flm://www.google.com Test]",
+                "[file://www.google.com/a.pdf a]"
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
     });
 });
