@@ -122,7 +122,7 @@ class Parser {
             if (piping) {
                 return `<a href=${fullURL}>${piping}</a>`;
             } else {
-                const length = page.addUnnamedExternalLink(fullUrl);
+                const length = page.addUnnamedExternalLink(fullURL);
                 return `<a href=${fullURL}>[${length}]</a>`;
             }
         }
