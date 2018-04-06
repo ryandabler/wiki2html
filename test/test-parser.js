@@ -114,6 +114,23 @@ b==B==`;
             });
         });
 
+        it("Should make lower case links if allowed", function() {
+            parser.settings.allowLowerCase = true;
+
+            const wikitext = [
+                "[[abc]]"
+            ];
+            const parseFn  = parser._parseDoubleBrackets.bind(parser);
+            const result   = wikitext.map(parseFn);
+            const url      = parser.getBaseURL();
+            const answers  = [
+                `<a href='${url}/abc'>abc</a>`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+
         it("Should parse interwiki links", function() {
             const wikitext = [
                 "[[s:abc]]",
