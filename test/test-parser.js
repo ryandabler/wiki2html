@@ -12,8 +12,41 @@ const expect = chai.expect;
 // Test
 ////////////////////////////
 describe("Parser", function() {
+    let parser;
+
     beforeEach(function() {
-        return parser = new Parser();
+        parser = new Parser({ 
+            server: {
+                protocol: "http",
+                subdomain: "en",
+                domain: "wikipedia",
+                tld: "org",
+                path: "wiki"
+            },
+
+            interwiki: [
+                {
+                    server: {
+                        protocol: "http",
+                        subdomain: "www",
+                        domain: "wikisource",
+                        tld: "org",
+                        path: "wiki"
+                    },
+                    indicators: ["s", "wikisource"]
+                }, {
+                    server: {
+                        protocol: "http",
+                        subdomain: "www",
+                        domain: "wikipedia",
+                        tld: "org",
+                        path: "wiki"
+                    },
+                    indicators: ["w", "wikipedia"],
+                    subdomains: ["en", "fr"]
+                }
+            ]
+        });
     });
 
     describe("_parseHeaders", function() {
@@ -84,34 +117,6 @@ b==B==`;
         });
 
         it("Should parse interwiki links", function() {
-            // Set up parser
-            parser.settings.server = {
-                protocol: "http",
-                subdomain: "en",
-                domain: "wikipedia",
-                tld: "org",
-                path: "wiki"
-            };
-            
-            parser.settings.interwiki.push({
-                server: { protocol: "http",
-                    subdomain: "www",
-                    domain: "wikisource",
-                    tld: "org",
-                    path: "wiki"
-                },
-                indicators: ["s", "wikisource"]
-            }, {
-                server: { protocol: "http",
-                    subdomain: "www",
-                    domain: "wikipedia",
-                    tld: "org",
-                    path: "wiki"
-                },
-                indicators: ["w", "wikipedia"]
-            });
-
-            // Run test
             const wikitext = [
                 "[[s:abc]]",
                 "[[s:Zyz]]",
@@ -133,27 +138,6 @@ b==B==`;
         });
 
         it("Should parse intersubdomain links", function() {
-            // Set up parser
-            parser.settings.server = {
-                protocol: "http",
-                subdomain: "en",
-                domain: "wikipedia",
-                tld: "org",
-                path: "wiki"
-            };
-            
-            parser.settings.interwiki.push({
-                server: { protocol: "http",
-                    subdomain: "www",
-                    domain: "wikipedia",
-                    tld: "org",
-                    path: "wiki"
-                },
-                indicators: ["w", "wikipedia"],
-                subdomains: ["en", "fr"]
-            });
-
-            // Run test
             const wikitext = [
                 "[[fr:abc]]",
                 "[[:fr:def]]",
@@ -179,27 +163,6 @@ b==B==`;
         });
 
         it("Should parse inter-namespace links", function() {
-            // Set up parser
-            parser.settings.server = {
-                protocol: "http",
-                subdomain: "en",
-                domain: "wikipedia",
-                tld: "org",
-                path: "wiki"
-            };
-            
-            parser.settings.interwiki.push({
-                server: { protocol: "http",
-                    subdomain: "www",
-                    domain: "wikipedia",
-                    tld: "org",
-                    path: "wiki"
-                },
-                indicators: ["w", "wikipedia"],
-                subdomains: ["en", "fr"]
-            });
-
-            // Run test
             const wikitext = [
                 "[[Template:Test]]",
                 "[[Category:Test]]",
