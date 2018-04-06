@@ -67,8 +67,6 @@ b==B==`;
         it("Should parse simple intrawiki links", function() {
             const wikitext = [
                                 "[[abc]]",
-                                "[[pip_ing]]",
-                                "[[Aba$ip]][[aaa()bbb]]",
                                 "[[a b]]",
                                 "[[abc|def]]"
                              ];
@@ -77,8 +75,6 @@ b==B==`;
             const url      = parser.getBaseURL();
             const answers  = [
                                 `<a href='${url}/Abc'>abc</a>`,
-                                `<a href='${url}/Pip_ing'>pip_ing</a>`,
-                                `<a href='${url}/Aba$ip'>Aba$ip</a><a href='${url}/Aaa()bbb'>aaa()bbb</a>`,
                                 `<a href='${url}/A_b'>a b</a>`,
                                 `<a href='${url}/Abc'>def</a>`
                              ];
@@ -108,14 +104,6 @@ b==B==`;
             }, {
                 server: { protocol: "http",
                     subdomain: "www",
-                    domain: "wikiquote",
-                    tld: "org",
-                    path: "wiki"
-            },
-                indicators: ["q", "wikiquote"]
-            }, {
-                server: { protocol: "http",
-                    subdomain: "www",
                     domain: "wikipedia",
                     tld: "org",
                     path: "wiki"
@@ -128,11 +116,8 @@ b==B==`;
                 "[[s:abc]]",
                 "[[s:Zyz]]",
                 "[[wikisource:es:def]]",
-                "[[q:bde]]",
-                "[[wikiquote:elf]]",
                 "[[s:zzz|bbb]]",
                 "[[s:zzz|]]",
-                "[[wikiquote:de:Categorie:Test|]]"
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
@@ -140,11 +125,8 @@ b==B==`;
                 "<a href='http://en.wikisource.org/wiki/abc'>s:abc</a>",
                 "<a href='http://en.wikisource.org/wiki/Zyz'>s:Zyz</a>",
                 "<a href='http://en.wikisource.org/wiki/es:def'>wikisource:es:def</a>",
-                "<a href='http://en.wikiquote.org/wiki/bde'>q:bde</a>",
-                "<a href='http://en.wikiquote.org/wiki/elf'>wikiquote:elf</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>bbb</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>zzz</a>",
-                "<a href='http://en.wikiquote.org/wiki/de:Categorie:Test'>de:Categorie:Test</a>"            ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
             });
@@ -178,6 +160,7 @@ b==B==`;
                 "[[:fr:abc|]]",
                 "[[:fr:abc|def]]",
                 "[[:fr:Template:Test|]]"
+                "[[:fr:wikipedia:test]]"
 
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
@@ -188,6 +171,7 @@ b==B==`;
                 "<a href='http://fr.wikipedia.org/wiki/abc'>abc</a>",
                 "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>",
                 "<a href='http://fr.wikipedia.org/wiki/Template:Test'>Template:Test</a>"
+                "<a href='http://fr.wikipedia.org/wiki/wikipedia:test'>fr:wikipedia:test</a>"
             ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
@@ -218,8 +202,6 @@ b==B==`;
             // Run test
             const wikitext = [
                 "[[Template:Test]]",
-                "[[Wikipedia:Test]]",
-                "[[Talk:Test]]",
                 "[[Category:Test]]",
                 "[[:Category:Test]]",
                 "[[Template:Test|]]"
@@ -228,8 +210,6 @@ b==B==`;
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "<a href='http://en.wikipedia.org/wiki/Template:Test'>Template:Test</a>",
-                "<a href='http://en.wikipedia.org/wiki/Wikipedia:Test'>Wikipedia:Test</a>",
-                "<a href='http://en.wikipedia.org/wiki/Talk:Test'>Talk:Test</a>",
                 "",
                 "<a href='http://en.wikipedia.org/wiki/Category:Test'>Category:Test</a>",
                 "<a href='http://en.wikipedia.org/wiki/Template:Test'>Test</a>"
