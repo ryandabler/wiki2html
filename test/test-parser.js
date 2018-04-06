@@ -100,16 +100,14 @@ b==B==`;
         it("Should parse simple intrawiki links", function() {
             const wikitext = [
                                 "[[abc]]",
-                                "[[a b]]",
-                                "[[abc|def]]"
+                                "[[a b]]"
                              ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
             const url      = parser.getBaseURL();
             const answers  = [
                                 `<a href='${url}/Abc'>abc</a>`,
-                                `<a href='${url}/A_b'>a b</a>`,
-                                `<a href='${url}/Abc'>def</a>`
+                                `<a href='${url}/A_b'>a b</a>`
                              ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
@@ -120,18 +118,15 @@ b==B==`;
             const wikitext = [
                 "[[s:abc]]",
                 "[[s:Zyz]]",
-                "[[wikisource:es:def]]",
-                "[[s:zzz|bbb]]",
-                "[[s:zzz|]]",
+                "[[wikisource:es:def]]"
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "<a href='http://en.wikisource.org/wiki/abc'>s:abc</a>",
                 "<a href='http://en.wikisource.org/wiki/Zyz'>s:Zyz</a>",
-                "<a href='http://en.wikisource.org/wiki/es:def'>wikisource:es:def</a>",
-                "<a href='http://en.wikisource.org/wiki/zzz'>bbb</a>",
-                "<a href='http://en.wikisource.org/wiki/zzz'>zzz</a>",
+                "<a href='http://en.wikisource.org/wiki/es:def'>wikisource:es:def</a>"
+            ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
             });
@@ -141,20 +136,13 @@ b==B==`;
             const wikitext = [
                 "[[fr:abc]]",
                 "[[:fr:def]]",
-                "[[:fr:abc|]]",
-                "[[:fr:abc|def]]",
-                "[[:fr:Template:Test|]]"
                 "[[:fr:wikipedia:test]]"
-
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "",
                 "<a href='http://fr.wikipedia.org/wiki/def'>fr:def</a>",
-                "<a href='http://fr.wikipedia.org/wiki/abc'>abc</a>",
-                "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>",
-                "<a href='http://fr.wikipedia.org/wiki/Template:Test'>Template:Test</a>"
                 "<a href='http://fr.wikipedia.org/wiki/wikipedia:test'>fr:wikipedia:test</a>"
             ];
             result.forEach((item, idx) => {
@@ -166,15 +154,42 @@ b==B==`;
             const wikitext = [
                 "[[Template:Test]]",
                 "[[Category:Test]]",
-                "[[:Category:Test]]",
-                "[[Template:Test|]]"
+                "[[:Category:Test]]"
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
             const answers  = [
                 "<a href='http://en.wikipedia.org/wiki/Template:Test'>Template:Test</a>",
                 "",
-                "<a href='http://en.wikipedia.org/wiki/Category:Test'>Category:Test</a>",
+                "<a href='http://en.wikipedia.org/wiki/Category:Test'>Category:Test</a>"
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+
+        it("Should pipe links properly", function() {
+            const wikitext = [
+                "[[abc|def]]",
+                "[[s:zzz|bbb]]",
+                "[[s:zzz|]]",
+                "[[wikisource:de:Categorie:Test|]]",
+                "[[:fr:abc|]]",
+                "[[:fr:abc|def]]",
+                "[[:fr:Template:Test|]]",
+                "[[Template:Test|]]"
+            ];
+            const parseFn  = parser._parseDoubleBrackets.bind(parser);
+            const result   = wikitext.map(parseFn);
+            const url      = parser.getBaseURL();
+            const answers  = [
+                `<a href='${url}/Abc'>def</a>`,
+                "<a href='http://en.wikisource.org/wiki/zzz'>bbb</a>",
+                "<a href='http://en.wikisource.org/wiki/zzz'>zzz</a>",
+                "<a href='http://en.wikisource.org/wiki/de:Categorie:Test'>de:Categorie:Test</a>",
+                "<a href='http://fr.wikipedia.org/wiki/abc'>abc</a>",
+                "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>",
+                "<a href='http://fr.wikipedia.org/wiki/Template:Test'>Template:Test</a>",
                 "<a href='http://en.wikipedia.org/wiki/Template:Test'>Test</a>"
             ];
             result.forEach((item, idx) => {
