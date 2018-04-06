@@ -99,16 +99,16 @@ b==B==`;
     describe("_parseDoubleBrackets", function() {
         it("Should parse simple intrawiki links", function() {
             const wikitext = [
-                                "[[abc]]",
-                                "[[a b]]"
-                             ];
+                "[[abc]]",
+                "[[a b]]"
+            ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
             const url      = parser.getBaseURL();
             const answers  = [
-                                `<a href='${url}/Abc'>abc</a>`,
-                                `<a href='${url}/A_b'>a b</a>`
-                             ];
+                `<a href='${url}/Abc'>abc</a>`,
+                `<a href='${url}/A_b'>a b</a>`
+            ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
             });
