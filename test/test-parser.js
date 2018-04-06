@@ -176,8 +176,7 @@ b==B==`;
                 "[[wikisource:de:Categorie:Test|]]",
                 "[[:fr:abc|]]",
                 "[[:fr:abc|def]]",
-                "[[:fr:Template:Test|]]",
-                "[[Template:Test|]]"
+                "[[:fr:Template:Test|]]"
             ];
             const parseFn  = parser._parseDoubleBrackets.bind(parser);
             const result   = wikitext.map(parseFn);
@@ -189,8 +188,7 @@ b==B==`;
                 "<a href='http://en.wikisource.org/wiki/de:Categorie:Test'>de:Categorie:Test</a>",
                 "<a href='http://fr.wikipedia.org/wiki/abc'>abc</a>",
                 "<a href='http://fr.wikipedia.org/wiki/abc'>def</a>",
-                "<a href='http://fr.wikipedia.org/wiki/Template:Test'>Template:Test</a>",
-                "<a href='http://en.wikipedia.org/wiki/Template:Test'>Test</a>"
+                "<a href='http://fr.wikipedia.org/wiki/Template:Test'>Template:Test</a>"
             ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);
