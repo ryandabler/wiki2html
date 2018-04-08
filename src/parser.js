@@ -1,18 +1,6 @@
 "use strict";
 
-class Page {
-    constructor(wikimarkup) {
-        this.wikimarkup = wikimarkup;
-        this.html = wikimarkup;
-        this.categoryList = [];
-        this.subdomainLinks = [];
-        this.unnamedExternalLinks = [];
-    }
-
-    addUnnamedExternalLink(fullUrl) {
-        return this.unnamedExternalLinks.push(fullUrl);
-    }
-}
+const { Page } = require("./page");
 
 class Parser {
     constructor({
@@ -163,4 +151,4 @@ ${match.split("\n")
     }
 }
 
-module.exports = { Parser, Page };
+module.exports = { Parser };
