@@ -130,6 +130,22 @@ class Parser {
         return wikimarkup.replace(/\[(https?(?=:\/{2})|ftps?(?=:\/{2})|ircs?(?=:\/{2})|news(?=:\/{2})|gopher(?=:\/{2})|mailto(?!:\/+))(:\/{0,2})([^\/\s]+)(?: ?([^\[\]]*))*?\]/g, createLink);
     }
 
+    _parseSpaceList(wikimarkup) {
+        const replaceSpace = function(match, offset, string) { 
+            return (
+`<pre>
+${match.split("\n")
+    .filter(item => item !== "")
+    .map(item => item.trim())
+    .join("\n")
+}
+</pre>\n`
+            );
+        }
+
+        return wikimarkup.replace(/(?<!.)(?: (?:.+)\n?)+/g, replaceSpace);
+    }
+
     parse(wikimarkup) {
         const document = new Page(wikimarkup);
         let text = wikimarkup;

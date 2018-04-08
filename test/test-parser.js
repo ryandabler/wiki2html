@@ -266,4 +266,38 @@ b==B==`;
             });
         });
     });
+
+    describe("_parseSpaceList", function() {
+        it("Should parse blocks of text beginning with a space as <pre>", function() {
+            const wikitext = [
+                ` abc
+ def`,
+                `abc
+ def
+ ghi
+jkl`
+            ];
+            const parseFn  = parser._parseSpaceList.bind(parser);
+            const result   = wikitext.map(text => {
+                const pg = new Page(text);
+                return parseFn(text, pg);
+            });
+            const answers  = [
+                `<pre>
+abc
+def
+</pre>
+`,
+                `abc
+<pre>
+def
+ghi
+</pre>
+jkl`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    });
 });
