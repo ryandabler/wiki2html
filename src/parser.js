@@ -84,7 +84,7 @@ class Parser {
         newP4 = capitalizationApplies ? this._capitalizeFirstLetter(newP4) : newP4;
         const newP6 = this._pipeLink(fullName, piping);
 
-        return `<a href='${this.getBaseURL(server) + "/" + newP4}'>${newP6 ? newP6 : newP4}</a>`;
+        return `<a href='${this.getBaseURL(server) + "/" + newP4}'>${newP6}</a>`;
     }
 
     _parseDoubleBrackets(wikimarkup) {
@@ -128,6 +128,14 @@ class Parser {
         }
         
         return wikimarkup.replace(/\[(https?(?=:\/{2})|ftps?(?=:\/{2})|ircs?(?=:\/{2})|news(?=:\/{2})|gopher(?=:\/{2})|mailto(?!:\/+))(:\/{0,2})([^\/\s]+)(?: ?([^\[\]]*))*?\]/g, createLink);
+    }
+
+    _parseOrderedList(wikimarkup) {
+        const createList = (function(match, offset, string) {
+            console.log(match);
+        }).bind(this);
+
+        return wikimarkup.replace(/(?<!.)(?:#(?:.+)\n?)+/g, createList);
     }
 
     _parseSpaceList(wikimarkup) {
