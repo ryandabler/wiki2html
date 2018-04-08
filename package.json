@@ -4,7 +4,7 @@
   "description": "A Javascript parser that converts wikitext markup into HTML",
   "main": "parser.js",
   "scripts": {
-    "test": "mocha --exit"
+    "test": "mocha --harmony --exit"
   },
   "author": "Ryan Dabler",
   "license": "GPL-3.0",
