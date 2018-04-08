@@ -5,7 +5,7 @@
   "main": "parser.js",
   "scripts": {
     "test": "mocha --harmony --exit",
-    "test-travis": "node --harmony node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec ./test/*"
+    "coverage": "node --harmony node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec ./test/*"
   },
   "author": "Ryan Dabler",
   "license": "GPL-3.0",
