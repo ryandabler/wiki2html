@@ -1,5 +1,7 @@
 class Page {
-    constructor(wikimarkup) {
+    constructor({
+        wikimarkup = ""
+    } = {}) {
         this.wikimarkup = wikimarkup;
         this.html = wikimarkup;
         this.categoryList = [];
