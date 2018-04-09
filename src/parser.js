@@ -144,7 +144,6 @@ ${match.split("\n")
 
     parse(wikimarkup) {
         const document = new Page(wikimarkup);
-        let text = wikimarkup;
         document.html = this._parseHeaders(document.html);
         document.html = this._parseInteralLinks(document.html);
         return document;
