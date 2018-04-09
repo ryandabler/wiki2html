@@ -41,10 +41,9 @@ class Parser {
         }
 
         if (p6 === "") {
-            const segments = original.split(":");
-            if (segments.length > 1) {
-                segments.shift();
-            }
+            const segments = original.includes(":") ?
+                original.split(":").filter((item, idx) => idx !== 0) :
+                original.split(":");
 
             return segments.join(":");
         }
