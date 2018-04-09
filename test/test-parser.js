@@ -188,6 +188,7 @@ b==B==`;
         it("Should pipe links properly", function() {
             const wikitext = [
                 "[[abc|def]]",
+                "[[cabbage|]]",
                 "[[s:zzz|bbb]]",
                 "[[s:zzz|]]",
                 "[[wikisource:de:Categorie:Test|]]",
@@ -200,6 +201,7 @@ b==B==`;
             const url      = parser.getBaseURL();
             const answers  = [
                 `<a href='${url}/Abc'>def</a>`,
+                `<a href='${url}/Cabbage'>cabbage</a>`,
                 "<a href='http://en.wikisource.org/wiki/zzz'>bbb</a>",
                 "<a href='http://en.wikisource.org/wiki/zzz'>zzz</a>",
                 "<a href='http://en.wikisource.org/wiki/de:Categorie:Test'>de:Categorie:Test</a>",
