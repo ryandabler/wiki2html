@@ -141,6 +141,17 @@ ${match.split("\n")
         return wikimarkup.replace(/(?<!.)(?: (?:.+)\n?)+/g, replaceSpace);
     }
 
+    _replaceNowikiAndPreTags(wikimarkup, page) {
+        const replaceTags = function(match, offset, string) {
+            return page.setPlaceholder(match);
+        }
+
+        return wikimarkup.replace(
+            /<nowiki>[\s\S]*?<\/nowiki>|<pre>[\s\S]*?<\/pre>/g,
+            replaceTags
+        );
+    }
+
     parse(wikimarkup) {
         const document = new Page(wikimarkup);
         document.html = this._parseHeaders(document.html);
