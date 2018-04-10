@@ -7,10 +7,17 @@ class Page {
         this.categoryList = [];
         this.subdomainLinks = [];
         this.unnamedExternalLinks = [];
+        this.placeholders = new Map();
     }
 
     addUnnamedExternalLink(fullUrl) {
         return this.unnamedExternalLinks.push(fullUrl);
+    }
+
+    setPlaceholder(text) {
+        const key = `<<<PLACEHOLDER_${this.placeholders.size}>>>`;
+        this.placeholders.set(key, text);
+        return key;
     }
 }
 
