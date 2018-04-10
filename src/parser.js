@@ -154,8 +154,16 @@ ${match.split("\n")
 
     parse(wikimarkup) {
         const document = new Page(wikimarkup);
+
+        // Stage 1: Convert wikimarkup to <pre> and replace all <pre> and <nowiki>
+        // tags with placeholder elements
+        document.html = this._parseSpaceList(document.html);
+        document.html = this._replaceNowikiAndPreTags(document.html, document);
+
+        // Stage 2: Convert wikiML to HTML
         document.html = this._parseHeaders(document.html);
-        document.html = this._parseInteralLinks(document.html);
+        document.html = this._parseDoubleBrackets(document.html);
+        document.html = this._parseSingleBrackets(document.html, document);
         return document;
     }
 }
