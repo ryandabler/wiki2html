@@ -32,12 +32,12 @@ class Parser {
         return wiki.subdomains.find(subdomain => subdomain === designation) ? true : false;
     }
 
-    _pipeLink(original, p6) {
-        if (p6) {
-            return p6;
+    _pipeLink(original, pipe) {
+        if (pipe) {
+            return pipe;
         }
 
-        if (p6 === "") {
+        if (pipe === "") {
             const segments = original.includes(":") ?
                 original.split(":").filter((item, idx) => idx !== 0) :
                 original.split(":");
