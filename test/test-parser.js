@@ -49,6 +49,38 @@ describe("Parser", function() {
         });
     });
 
+    describe("isValidSisterWiki", function() {
+        it("Should return true for a valid wiki", function() {
+            const indicators = [
+                "s",
+                "wikisource"
+            ];
+            const parseFn  = parser.isValidSisterWiki.bind(parser);
+            const result   = indicators.map(parseFn);
+            result.forEach(item => {
+                expect(item).not.to.be.false;
+            });
+        });
+
+        it("Should return false on for invalid wiki", function() {
+            const indicator = "ss";
+            const result = parser.isValidSisterWiki(indicator);
+            expect(result).to.be.false;
+        });
+    });
+
+    describe("isValidSubdomain", function() {
+        it("Should return true for a valid subdomain", function() {
+            const isValid = parser.isValidSubdomain("fr");
+            expect(isValid).to.be.true;
+        });
+
+        it("Should return false on for invalid subdomain", function() {
+            const isValid = parser.isValidSubdomain("frr");
+            expect(isValid).to.be.false;
+        });
+    });
+
     describe("_parseHeaders", function() {
         it("Should parse well-formed headers", function() {
             const wikitext = `=A=
@@ -302,4 +334,36 @@ jkl`
             });
         });
     });
+
+    describe("_replaceNowikiAndPreTags", function() {
+        it("Should replace <pre> and <nowiki> tags with placeholders", function() {
+            const wikitext = [
+                `<pre>
+abc
+</pre>`,
+`<nowiki>
+abc
+</nowiki>`,
+`<nowiki>
+<pre>abc</pre>
+</nowiki>`,
+`<nowiki>abc</nowiki>
+<pre>abc</pre>`,
+
+
+            ];
+            const parseFn  = parser._replaceNowikiAndPreTags.bind(parser);
+            const result   = wikitext.map(text => {
+                const pg = new Page(text);
+                return parseFn(text, pg);
+            });
+            const answers  = [
+                "<<<PLACEHOLDER_0>>>",
+                "<<<PLACEHOLDER_0>>>",
+                "<<<PLACEHOLDER_0>>>",
+                `<<<PLACEHOLDER_0>>>
+<<<PLACEHOLDER_1>>>`
+            ];
+        });
+    })
 });
