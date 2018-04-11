@@ -29,10 +29,7 @@ class Parser {
         const wiki = this.settings.interwiki.find(item => 
             item.server.domain === this.settings.server.domain
         );
-        const subdomain = wiki && wiki.subdomains
-                                ? wiki.subdomains.find(subdomain => subdomain === designation)
-                                : null;
-        return subdomain ? true : false;
+        return wiki.subdomains.find(subdomain => subdomain === designation) ? true : false;
     }
 
     _pipeLink(original, p6) {
