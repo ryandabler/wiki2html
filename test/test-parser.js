@@ -398,5 +398,38 @@ jkl`
                 expect(item).to.equal(answers[idx]);
             });
         });
+
+        it("Should convert '*' blocks to unordered list", function() {
+            const wikitext = [
+                `*abc
+*def`,
+                `*abc
+**def
+**ghi
+*jkl`
+            ];
+            const parseFn  = parser._parseBlockLevelText.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text, "*", parser.createList("*", "ul"));
+            });
+            const answers  = [
+                `<ul>
+<li>abc</li>
+<li>def</li>
+</ul>`,
+                `<ul>
+<li>abc
+<ul>
+<li>def</li>
+<li>ghi</li>
+</ul>
+</li>
+<li>jkl</li>
+</ul>`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
     });
 });
