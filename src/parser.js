@@ -176,6 +176,10 @@ ${match.split("\n")
         document.html = this._parseHeaders(document.html);
         document.html = this._parseDoubleBrackets(document.html);
         document.html = this._parseSingleBrackets(document.html, document);
+        document.html = this._parseBlockLevelText(document.html, "#", this.createList("#", "ol"));
+        document.html = this._parseBlockLevelText(document.html, "*", this.createList("#", "ul"));
+        document.html = this._parseBlockLevelText(document.html, " ", this.replaceSpace);
+        
         return document;
     }
 }
