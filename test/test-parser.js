@@ -362,6 +362,9 @@ abc
                 `<<<PLACEHOLDER_0>>>
 <<<PLACEHOLDER_1>>>`
             ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
         });
     });
 });
