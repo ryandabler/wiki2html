@@ -116,9 +116,9 @@ class Parser {
 
     _parseOrderedList(wikimarkup) {
         const createList = function(match, offset, string) {
-            let splitLines = match.split("\n")
-                .map(line => line.split("#"));
-            let processedLines = splitLines.map((lineArr, idx, arr) => {
+            const processedLines = match.split("\n")
+                .map(line => line.split("#"))
+                .map((lineArr, idx, arr) => {
                 if(arr[idx + 1] && lineArr.length < arr[idx + 1].length) {
                     return `<li>${lineArr[lineArr.length - 1]}
 <ol>`;
