@@ -348,9 +348,7 @@ abc
 <pre>abc</pre>
 </nowiki>`,
 `<nowiki>abc</nowiki>
-<pre>abc</pre>`,
-
-
+<pre>abc</pre>`
             ];
             const parseFn  = parser._replaceNowikiAndPreTags.bind(parser);
             const result   = wikitext.map(text => {
