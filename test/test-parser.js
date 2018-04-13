@@ -367,4 +367,39 @@ abc
             });
         });
     });
+
+    describe("_parseOrderedList", function() {
+        it("Should convert '#' blocks to ordered list", function() {
+            const wikitext = [
+                `#abc
+#def`,
+                `#abc
+##def
+##ghi
+#jkl`
+            ];
+            const parseFn  = parser._parseOrderedList.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text);
+            });
+            const answers  = [
+                `<ol>
+<li>abc</li>
+<li>def</li>
+</ol>`,
+                `<ol>
+<li>abc
+<ol>
+<li>def</li>
+<li>ghi</li>
+</ol>
+</li>
+<li>jkl</li>
+</ol>`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    })
 });
