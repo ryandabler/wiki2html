@@ -401,5 +401,5 @@ abc
                 expect(item).to.equal(answers[idx]);
             });
         });
-    })
+    });
 });
