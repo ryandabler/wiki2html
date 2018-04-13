@@ -169,7 +169,7 @@ ${match.split("\n")
 
         // Stage 1: Convert wikimarkup to <pre> and replace all <pre> and <nowiki>
         // tags with placeholder elements
-        document.html = this._parseSpaceList(document.html);
+        document.html = this._parseBlockLevelText(document.html, " ", this.replaceSpace);
         document.html = this._replaceNowikiAndPreTags(document.html, document);
 
         // Stage 2: Convert wikiML to HTML
@@ -178,7 +178,6 @@ ${match.split("\n")
         document.html = this._parseSingleBrackets(document.html, document);
         document.html = this._parseBlockLevelText(document.html, "#", this.createList("#", "ol"));
         document.html = this._parseBlockLevelText(document.html, "*", this.createList("#", "ul"));
-        document.html = this._parseBlockLevelText(document.html, " ", this.replaceSpace);
         
         return document;
     }
