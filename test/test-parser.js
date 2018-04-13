@@ -301,40 +301,6 @@ b==B==`;
         });
     });
 
-    describe("_parseSpaceList", function() {
-        it("Should parse blocks of text beginning with a space as <pre>", function() {
-            const wikitext = [
-                ` abc
- def`,
-                `abc
- def
- ghi
-jkl`
-            ];
-            const parseFn  = parser._parseSpaceList.bind(parser);
-            const result   = wikitext.map(text => {
-                const pg = new Page(text);
-                return parseFn(text, pg);
-            });
-            const answers  = [
-                `<pre>
-abc
-def
-</pre>
-`,
-                `abc
-<pre>
-def
-ghi
-</pre>
-jkl`
-            ];
-            result.forEach((item, idx) => {
-                expect(item).to.equal(answers[idx]);
-            });
-        });
-    });
-
     describe("_replaceNowikiAndPreTags", function() {
         it("Should replace <pre> and <nowiki> tags with placeholders", function() {
             const wikitext = [
@@ -368,7 +334,7 @@ abc
         });
     });
 
-    describe("_parseOrderedList", function() {
+    describe("_parseBlockLevelText", function() {
         it("Should convert '#' blocks to ordered list", function() {
             const wikitext = [
                 `#abc
@@ -378,9 +344,9 @@ abc
 ##ghi
 #jkl`
             ];
-            const parseFn  = parser._parseOrderedList.bind(parser);
+            const parseFn  = parser._parseBlockLevelText.bind(parser);
             const result   = wikitext.map(text => {
-                return parseFn(text);
+                return parseFn(text, "#", parser.createList("#", "ol"));
             });
             const answers  = [
                 `<ol>
@@ -396,6 +362,37 @@ abc
 </li>
 <li>jkl</li>
 </ol>`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+
+        it("Should convert ' ' blocks to <pre>", function() {
+            const wikitext = [
+                ` abc
+ def`,
+                `abc
+ def
+ ghi
+jkl`
+            ];
+            const parseFn  = parser._parseBlockLevelText.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text, " ", parser.replaceSpace);
+            });
+            const answers  = [
+                `<pre>
+abc
+def
+</pre>
+`,
+                `abc
+<pre>
+def
+ghi
+</pre>
+jkl`
             ];
             result.forEach((item, idx) => {
                 expect(item).to.equal(answers[idx]);

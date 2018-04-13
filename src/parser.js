@@ -114,33 +114,30 @@ class Parser {
         return wikimarkup.replace(/\[(https?(?=:\/{2})|ftps?(?=:\/{2})|ircs?(?=:\/{2})|news(?=:\/{2})|gopher(?=:\/{2})|mailto(?!:\/+))(:\/{0,2})([^\/\s]+)(?: ?([^\[\]]*))*?\]/g, createLink);
     }
 
-    _parseOrderedList(wikimarkup) {
-        const createList = function(match, offset, string) {
+    createList(delimiter, tag) {
+        return function(match, offset, string) {
             const processedLines = match.split("\n")
-                .map(line => line.split("#"))
+                .map(line => line.split(delimiter))
                 .map((lineArr, idx, arr) => {
                 if(arr[idx + 1] && lineArr.length < arr[idx + 1].length) {
                     return `<li>${lineArr[lineArr.length - 1]}
-<ol>`;
+<${tag}>`;
                 } else if (arr[idx + 1] && lineArr.length > arr[idx + 1].length) {
                     return `<li>${lineArr[lineArr.length - 1]}</li>
-</ol>
+</${tag}>
 </li>`;
                 } else {
                     return `<li>${lineArr[lineArr.length - 1]}</li>`;
                 }
             });
-            return `<ol>
+            return `<${tag}>
 ${processedLines.join("\n")}
-</ol>`;
+</${tag}>`;
         }
-
-        return wikimarkup.replace(/(?<!.)(?:#(?:.+)\n?)+/g, createList);
     }
 
-    _parseSpaceList(wikimarkup) {
-        const replaceSpace = function(match, offset, string) { 
-            return (
+    replaceSpace(match, offset, string) { 
+        return (
 `<pre>
 ${match.split("\n")
     .filter(item => item !== "")
@@ -148,10 +145,12 @@ ${match.split("\n")
     .join("\n")
 }
 </pre>\n`
-            );
-        }
+        );
+    }
 
-        return wikimarkup.replace(/(?<!.)(?: (?:.+)\n?)+/g, replaceSpace);
+    _parseBlockLevelText(wikimarkup, delimiter, fn) {
+        const regExp = new RegExp(`(?<!.)(?:${delimiter}(?:.+)\n?)+`);
+        return wikimarkup.replace(regExp, fn);
     }
 
     _replaceNowikiAndPreTags(wikimarkup, page) {
