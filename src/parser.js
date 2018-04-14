@@ -164,6 +164,14 @@ ${match.split("\n")
         );
     }
 
+    _parseDashLines(wikimarkup) {
+        const convertToHR = function(match, dashes, addlText, offset, string) {
+            return addlText ? `<hr>\n${addlText}` : "<hr>";
+        }
+
+        return wikimarkup.replace(/^(-{4,})(.+)*$/gm, convertToHR);
+    }
+
     parse(wikimarkup) {
         const document = new Page(wikimarkup);
 

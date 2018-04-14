@@ -432,4 +432,31 @@ jkl`
             });
         });
     });
+
+    describe("_parseDashLines", function() {
+        it("Should convert 4 or more dashes to <hr> tags", function() {
+            const wikitext = [
+                "---",
+                "----",
+                "--------------",
+                "----abd",
+                "a----"
+            ];
+            const parseFn  = parser._parseDashLines.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text);
+            });
+            const answers  = [
+                "---",
+                "<hr>",
+                "<hr>",
+                `<hr>
+abd`,
+                "a----"
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    });
 });
