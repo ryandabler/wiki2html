@@ -148,6 +148,21 @@ ${match.split("\n")
         );
     }
 
+    createDefinitionList(match, offset, string) {
+        let layer = 0;
+        const processedLines = match.split("\n")
+            .map(line => line.split(/[:;]/).concat( [ line.replace(/[^:;]+/, "").split("") ] ))
+            .map((lineArr, idx, arr) => {
+                    return lineArr[lineArr.length - 1][layer] === ":" ? 
+                        `<dd>${lineArr[lineArr.length - 2]}</dd>` :
+                        `<dt>${lineArr[lineArr.length - 2]}</dt>`;
+            });
+
+        return `<dl>
+${processedLines.join("\n")}
+</dl>`;
+    }
+
     _parseBlockLevelText(wikimarkup, delimiter, fn) {
         const regExp = new RegExp(`(?<!.)(?:\\${delimiter}(?:.+)\n?)+`);
         return wikimarkup.replace(regExp, fn);
