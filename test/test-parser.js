@@ -431,6 +431,30 @@ jkl`
                 expect(item).to.equal(answers[idx]);
             });
         });
+
+        it("Should convert ';' and ':' blocks to definition list", function() {
+            const wikitext = [
+                `;abc
+:def
+;ghi
+:jkl`
+            ];
+            const parseFn  = parser._parseBlockLevelText.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text, ":;", parser.createDefinitionList);
+            });
+            const answers  = [
+                `<dl>
+<dt>abc</dt>
+<dd>def</dd>
+<dt>ghi</dt>
+<dd>jkl</dd>
+</dl>`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
     });
 
     describe("_parseDashLines", function() {
