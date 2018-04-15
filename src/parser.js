@@ -119,17 +119,17 @@ class Parser {
             const processedLines = match.split("\n")
                 .map(line => line.split(delimiter))
                 .map((lineArr, idx, arr) => {
-                if(arr[idx + 1] && lineArr.length < arr[idx + 1].length) {
-                    return `<li>${lineArr[lineArr.length - 1]}
+                    if(arr[idx + 1] && lineArr.length < arr[idx + 1].length) {
+                        return `<li>${lineArr[lineArr.length - 1]}
 <${tag}>`;
-                } else if (arr[idx + 1] && lineArr.length > arr[idx + 1].length) {
-                    return `<li>${lineArr[lineArr.length - 1]}</li>
+                    } else if (arr[idx + 1] && lineArr.length > arr[idx + 1].length) {
+                        return `<li>${lineArr[lineArr.length - 1]}</li>
 </${tag}>
 </li>`;
-                } else {
-                    return `<li>${lineArr[lineArr.length - 1]}</li>`;
-                }
-            });
+                    } else {
+                        return `<li>${lineArr[lineArr.length - 1]}</li>`;
+                    }
+                });
             return `<${tag}>
 ${processedLines.join("\n")}
 </${tag}>`;
@@ -187,7 +187,7 @@ ${match.split("\n")
         document.html = this._parseBlockLevelText(document.html, "#", this.createList("#", "ol"));
         document.html = this._parseBlockLevelText(document.html, "*", this.createList("#", "ul"));
         document.html = this._parseDashLines(document.html);
-        
+
         return document;
     }
 }
