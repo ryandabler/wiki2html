@@ -164,7 +164,7 @@ ${processedLines.join("\n")}
     }
 
     _parseBlockLevelText(wikimarkup, delimiter, fn) {
-        const regExp = new RegExp(`(?<!.)(?:\\${delimiter}(?:.+)\n?)+`);
+        const regExp = new RegExp(`(?<!.)(?:[${delimiter}](?:.+)\n?)+`);
         return wikimarkup.replace(regExp, fn);
     }
 
