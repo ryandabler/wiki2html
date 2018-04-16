@@ -8,6 +8,18 @@
 
 This is a MediaWiki parser written in JavaScript for the purpose of being able to render wiki markup in the browser as HTML.
 
+## Getting Started
+
+### Installing
+
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+## Deployment
+
+Add additional notes about how to deploy this on a live system
+
 ## Contributing
 
 This is a big undertaking to reasonably approximate the MediaWiki parser, and I will happily accept pull requests.
