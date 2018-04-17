@@ -49,6 +49,7 @@ function rewind(text, layer, value = 1) {
 
 module.exports = {
     lastElement,
+    listTag,
     listItemTag,
     fastForward,
     rewind
