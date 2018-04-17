@@ -437,7 +437,32 @@ jkl`
                 `;abc
 :def
 ;ghi
-:jkl`
+:jkl`,
+                `:abc
+:;def
+::;ghi`,
+                `:abc
+::def
+:::ghi
+::jkl
+::::mno
+::::pqr
+:stu`,
+                `:abc
+::;def
+:::ghi
+:jkl`,
+                `:abc
+::;def
+:;ghi
+:jkl`,
+                `:abc
+:;def
+:ghi
+::jkl
+:::mno
+:stu
+:;;;;zxy`
             ];
             const parseFn  = parser._parseBlockLevelText.bind(parser);
             const result   = wikitext.map(text => {
@@ -449,6 +474,101 @@ jkl`
 <dd>def</dd>
 <dt>ghi</dt>
 <dd>jkl</dd>
+</dl>`,
+                `<dl>
+<dd>abc
+<dl>
+<dt>def</dt>
+<dd>
+<dl>
+<dt>ghi</dt>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>`,
+                `<dl>
+<dd>abc
+<dl>
+<dd>def
+<dl>
+<dd>ghi</dd>
+</dl>
+</dd>
+<dd>jkl
+<dl>
+<dd>
+<dl>
+<dd>mno</dd>
+<dd>pqr</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dd>stu</dd>
+</dl>`,
+                `<dl>
+<dd>abc
+<dl>
+<dd>
+<dl>
+<dt>def</dt>
+<dd>ghi</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dd>jkl</dd>
+</dl>`,
+                `<dl>
+<dd>abc
+<dl>
+<dd>
+<dl>
+<dt>def</dt>
+</dl>
+</dd>
+</dl>
+<dl>
+<dt>ghi</dt>
+</dl>
+</dd>
+<dd>jkl</dd>
+</dl>`,
+                `<dl>
+<dd>abc
+<dl>
+<dt>def</dt>
+</dl>
+</dd>
+<dd>ghi
+<dl>
+<dd>jkl
+<dl>
+<dd>mno</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dd>stu
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dd>
+<dl>
+<dt>zxy</dt>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
 </dl>`
             ];
             result.forEach((item, idx) => {
