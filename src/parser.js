@@ -1,6 +1,11 @@
 "use strict";
 
 const { Page } = require("./page");
+const { lastElement,
+listItemTag,
+fastForward,
+rewind
+} = require("./utilities");
 
 class Parser {
     constructor({
@@ -149,18 +154,54 @@ ${match.split("\n")
     }
 
     createDefinitionList(match, offset, string) {
-        let layer = 0;
+        let layer = [];
         const processedLines = match.split("\n")
             .map(line => line.split(/[:;]/).concat( [ line.replace(/[^:;]+/, "").split("") ] ))
             .map((lineArr, idx, arr) => {
-                    return lineArr[lineArr.length - 1][layer] === ":" ? 
-                        `<dd>${lineArr[lineArr.length - 2]}</dd>` :
-                        `<dt>${lineArr[lineArr.length - 2]}</dt>`;
-            });
+                let text = "";
 
-        return `<dl>
-${processedLines.join("\n")}
-</dl>`;
+                // Check to make sure that the list element depth for lineArr
+                // equals the depth of layer.  If not, fast forward layer to the correct
+                // depth. If they are equal, open the list item.
+                if (layer.length < lastElement(lineArr).length) {
+                    text = fastForward("", lineArr, layer) + lineArr[lineArr.length - 2];
+                } else {
+                    text += listItemTag(lastElement(lineArr)[layer.length - 1]) + lineArr[lineArr.length - 2];
+                }
+                
+                // Simple case: current line and next line are on the same depth
+                if (arr[idx + 1] && arr[idx + 1].length === lineArr.length) {
+                    const nextDelim = lastElement(arr[idx + 1])[layer.length - 1];
+
+                    text += listItemTag(lastElement(lineArr)[layer.length - 1], true);
+
+                    layer.pop();
+                    layer.push(nextDelim);
+                } else if (arr[idx + 1] && arr[idx + 1].length < lineArr.length) {
+                    const difference = lineArr.length - arr[idx + 1].length;
+                    text = `${rewind(text, layer, difference)}
+${listItemTag(lastElement(layer), true)}`;
+
+                    if (lastElement(layer) !== lastElement(lastElement(arr[idx + 1]))) {
+                        text += `\n</dl>
+<dl>`;
+                        layer.pop();
+                        layer.push(lastElement(lastElement(arr[idx + 1])));
+                    }
+                } else if (arr[idx + 1] && arr[idx + 1].length > lineArr.length) {
+                    if (lastElement(layer) === ";" && lastElement(arr[idx + 1])[layer.length - 1] === ":") {
+                        const delim = layer.pop();
+
+                        text += `${listItemTag(delim, true)}\n${listItemTag(lastElement(arr[idx + 1])[layer.length])}`;
+                        layer.push(":");
+                    }
+                }
+
+                return text;
+            });
+            
+        const closure = rewind("", layer, layer.length);
+        return processedLines.join("\n") + closure;
     }
 
     _parseBlockLevelText(wikimarkup, delimiter, fn) {
