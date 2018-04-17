@@ -603,4 +603,41 @@ abd`,
             });
         });
     });
+
+    describe("parse", function() {
+        it("Should parse a document", function() {
+            const wikitext = `==Abc==
+ Def
+ Def|abc
+*This is going to be [[great|awesome]]. But not too [http://www.google.com].
+
+===Howdy===
+#Item 1
+##Item 2
+#Item 3
+----`;
+            const result   = parser.parse(wikitext);
+            const answer  = `<h2>Abc</h2>
+<pre>
+Def
+Def|abc
+</pre>
+<ul>
+<li>This is going to be <a href='${parser.getBaseURL()}/Great'>awesome</a>. But not too <a href='http://www.google.com'>[1]</a></li>
+</ul>.
+
+<h3>Howdy</h3>
+<ol>
+<li>Item 1
+<ol>
+<li>Item 2</li>
+</ol>
+</li>
+<li>Item 3</li>
+</ol>
+<hr>`;
+
+            // expect(result).to.equal(answer);
+        });
+    });
 });
