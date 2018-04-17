@@ -25,7 +25,7 @@ This is a big undertaking to reasonably approximate the MediaWiki parser, and I 
 
 ## Authors
 
-* **Ryan Dabler** - *Initial work* - [PurpleBooth](https://github.com/ryandabler)
+* **Ryan Dabler** - *Initial work* - [GitHub](https://github.com/ryandabler)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
