@@ -5,7 +5,9 @@ function lastElement(arr) {
 function listItemTag(delimiter, close = false) {
     const tags = {
         ":": `<${close ? "/" : ""}dd>`,
-        ";": `<${close ? "/" : ""}dt>`
+        ";": `<${close ? "/" : ""}dt>`,
+        "#": `<${close ? "/" : ""}li>`,
+        "*": `<${close ? "/" : ""}li>`
     };
     
     return tags[delimiter];
