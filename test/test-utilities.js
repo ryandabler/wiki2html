@@ -28,6 +28,54 @@ describe("Utilities", function() {
         });
     });
 
+    describe("listTag", function() {
+        it("Should return '<dl>' and '</dl>'", function() {
+            const tags = [
+                listTag(":"),
+                listTag(":", true),
+                listTag(";"),
+                listTag(";", true)
+            ];
+            const answers = [
+                "<dl>",
+                "</dl>",
+                "<dl>",
+                "</dl>"
+            ];
+            tags.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+
+        it("Should return '<ol>' and '</ol>'", function() {
+            const tags = [
+                listTag("#"),
+                listTag("#", true),
+            ];
+            const answers = [
+                "<ol>",
+                "</ol>"
+            ];
+            tags.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+
+        it("Should return '<ul>' and '</ul>'", function() {
+            const tags = [
+                listTag("*"),
+                listTag("*", true)
+            ];
+            const answers = [
+                "<ul>",
+                "</ul>"
+            ];
+            tags.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    });
+
     describe("listItemTag", function() {
         it("Should return '<dd>' and '</dd>'", function() {
             const tags = [
