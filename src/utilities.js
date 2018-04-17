@@ -2,7 +2,7 @@ function lastElement(arr) {
     return arr[arr.length - 1];
 }
 
-var listTag = (delimiter, close = false) => {
+function listTag(delimiter, close = false) {
     const tags = {
         ":": `<${close ? "/" : ""}dl>`,
         ";": `<${close ? "/" : ""}dl>`,
