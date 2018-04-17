@@ -245,6 +245,9 @@ ${listItemTag(lastElement(layer), true)}`;
         document.html = this._parseBlockLevelText(document.html, ":;", this.createDefinitionList);
         document.html = this._parseDashLines(document.html);
 
+        // Replace placeholders with <pre> and <nowiki> tags
+        document.replacePlaceholders();
+        
         return document;
     }
 }
