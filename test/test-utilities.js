@@ -55,6 +55,24 @@ describe("Utilities", function() {
                 expect(item).to.equal(answers[idx]);
             });
         });
+
+        it("Should return '<li>' and '</li>'", function() {
+            const tags = [
+                listItemTag("#"),
+                listItemTag("#", true),
+                listItemTag("*"),
+                listItemTag("*", true)
+            ];
+            const answers = [
+                "<li>",
+                "</li>",
+                "<li>",
+                "</li>"
+            ];
+            tags.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
     });
 
     describe("fastForward", function() {
