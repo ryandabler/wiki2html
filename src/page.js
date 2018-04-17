@@ -19,6 +19,13 @@ class Page {
         this.placeholders.set(key, text);
         return key;
     }
+
+    replacePlaceholders() {
+        this.placeholders.forEach((value, key) => {
+            this.html = this.html.replace(key, value);
+            this.placeholders.delete(key);
+        });
+    }
 }
 
 module.exports = { Page };
