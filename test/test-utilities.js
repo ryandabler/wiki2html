@@ -5,6 +5,7 @@ const chai  = require("chai");
 const mocha = require("mocha");
 
 const { lastElement,
+    listTag,
     listItemTag,
     fastForward,
     rewind
