@@ -26,10 +26,13 @@ function listItemTag(delimiter, close = false) {
 
 function fastForward(text, lineArr, layer) {
     while(layer.length < lastElement(lineArr).length) {
-        // Push ":" until we are at the very last element, then push whatever is in lineArr
-        // The reason for this is because the parser starts lists with <dl><dd> even if semicolons
-        // represent some of the layer
-        layer.push(layer.length === lastElement(lineArr).length - 1 ? lastElement(lineArr)[layer.length] : ":");
+        // Push the delimiter onto the array, unless the delimiter is a ";" and we are not at the
+        // end of lastElement(lineArr). This is because of how the MW parser generates <dl> lists
+        // using strings of ";"
+        let delim = lastElement(lineArr)[layer.length];
+        delim = delim !== ";" || layer.length === lastElement(lineArr).length - 1 ? delim : ":";
+        layer.push(delim);
+
         text += `${listTag(lastElement(layer))}\n${listItemTag(lastElement(layer))}\n`;
     }
     
