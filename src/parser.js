@@ -2,9 +2,10 @@
 
 const { Page } = require("./page");
 const { lastElement,
-listItemTag,
-fastForward,
-rewind
+    listTag,
+    listItemTag,
+    fastForward,
+    rewind
 } = require("./utilities");
 
 class Parser {
