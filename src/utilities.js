@@ -30,7 +30,7 @@ function fastForward(text, lineArr, layer) {
         // The reason for this is because the parser starts lists with <dl><dd> even if semicolons
         // represent some of the layer
         layer.push(layer.length === lastElement(lineArr).length - 1 ? lastElement(lineArr)[layer.length] : ":");
-        text += `<dl>\n${listItemTag(lastElement(layer))}\n`;
+        text += `${listTag(lastElement(layer))}\n${listItemTag(lastElement(layer))}\n`;
     }
     
     return text.slice(0, -1);
@@ -40,7 +40,7 @@ function rewind(text, layer, value = 1) {
     let counter = 0;
     while (counter < value) {
         const delim = layer.pop();
-        text += `${listItemTag(delim, true)}\n</dl>\n`;
+        text += `${listItemTag(delim, true)}\n${listTag(delim, true)}\n`;
         counter++;
     }
 

@@ -183,8 +183,8 @@ ${match.split("\n")
 ${listItemTag(lastElement(layer), true)}`;
 
                     if (lastElement(layer) !== lastElement(lastElement(arr[idx + 1]))) {
-                        text += `\n</dl>
-<dl>`;
+                        text += `\n${listTag(lastElement(layer), true)}
+${listTag(lastElement(lastElement(arr[idx + 1])))}`;
                         layer.pop();
                         layer.push(lastElement(lastElement(arr[idx + 1])));
                     }
