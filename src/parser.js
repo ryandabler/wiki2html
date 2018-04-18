@@ -120,28 +120,6 @@ class Parser {
         return wikimarkup.replace(/\[(https?(?=:\/{2})|ftps?(?=:\/{2})|ircs?(?=:\/{2})|news(?=:\/{2})|gopher(?=:\/{2})|mailto(?!:\/+))(:\/{0,2})([^\/\s]+)(?: ?([^\[\]]*))*?\]/g, createLink);
     }
 
-    createList(delimiter, tag) {
-        return function(match, offset, string) {
-            const processedLines = match.split("\n")
-                .map(line => line.split(delimiter))
-                .map((lineArr, idx, arr) => {
-                    if(arr[idx + 1] && lineArr.length < arr[idx + 1].length) {
-                        return `<li>${lineArr[lineArr.length - 1]}
-<${tag}>`;
-                    } else if (arr[idx + 1] && lineArr.length > arr[idx + 1].length) {
-                        return `<li>${lineArr[lineArr.length - 1]}</li>
-</${tag}>
-</li>`;
-                    } else {
-                        return `<li>${lineArr[lineArr.length - 1]}</li>`;
-                    }
-                });
-            return `<${tag}>
-${processedLines.join("\n")}
-</${tag}>`;
-        }
-    }
-
     replaceSpace(match, offset, string) { 
         return (
 `<pre>
@@ -157,7 +135,7 @@ ${match.split("\n")
     createDefinitionList(match, offset, string) {
         let layer = [];
         const processedLines = match.split("\n")
-            .map(line => line.split(/[:;]/).concat( [ line.replace(/[^:;]+/, "").split("") ] ))
+            .map(line => line.split(/[:;#*]/).concat( [ line.replace(/[^:;#*]+/, "").split("") ] ))
             .map((lineArr, idx, arr) => {
                 let text = "";
 
@@ -241,8 +219,8 @@ ${listTag(lastElement(lastElement(arr[idx + 1])))}`;
         document.html = this._parseHeaders(document.html);
         document.html = this._parseDoubleBrackets(document.html);
         document.html = this._parseSingleBrackets(document.html, document);
-        document.html = this._parseBlockLevelText(document.html, "#", this.createList("#", "ol"));
-        document.html = this._parseBlockLevelText(document.html, "*", this.createList("#", "ul"));
+        document.html = this._parseBlockLevelText(document.html, "#", this.createDefinitionList);
+        document.html = this._parseBlockLevelText(document.html, "*", this.createDefinitionList);
         document.html = this._parseBlockLevelText(document.html, ":;", this.createDefinitionList);
         document.html = this._parseDashLines(document.html);
 
