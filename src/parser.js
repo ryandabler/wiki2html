@@ -132,7 +132,7 @@ ${match.split("\n")
         );
     }
 
-    createDefinitionList(match, offset, string) {
+    createList(match, offset, string) {
         let layer = [];
         const processedLines = match.split("\n")
             .map(line => line.split(/[:;#*]/).concat( [ line.replace(/[^:;#*]+/, "").split("") ] ))
@@ -219,9 +219,9 @@ ${listTag(lastElement(lastElement(arr[idx + 1])))}`;
         document.html = this._parseHeaders(document.html);
         document.html = this._parseDoubleBrackets(document.html);
         document.html = this._parseSingleBrackets(document.html, document);
-        document.html = this._parseBlockLevelText(document.html, "#", this.createDefinitionList);
-        document.html = this._parseBlockLevelText(document.html, "*", this.createDefinitionList);
-        document.html = this._parseBlockLevelText(document.html, ":;", this.createDefinitionList);
+        document.html = this._parseBlockLevelText(document.html, "#", this.createList);
+        document.html = this._parseBlockLevelText(document.html, "*", this.createList);
+        document.html = this._parseBlockLevelText(document.html, ":;", this.createList);
         document.html = this._parseDashLines(document.html);
 
         // Replace placeholders with <pre> and <nowiki> tags

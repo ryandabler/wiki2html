@@ -346,7 +346,7 @@ abc
             ];
             const parseFn  = parser._parseBlockLevelText.bind(parser);
             const result   = wikitext.map(text => {
-                return parseFn(text, "#", parser.createDefinitionList);
+                return parseFn(text, "#", parser.createList);
             });
             const answers  = [
                 `<ol>
@@ -410,7 +410,7 @@ jkl`
             ];
             const parseFn  = parser._parseBlockLevelText.bind(parser);
             const result   = wikitext.map(text => {
-                return parseFn(text, "*", parser.createDefinitionList);
+                return parseFn(text, "*", parser.createList);
             });
             const answers  = [
                 `<ul>
@@ -466,7 +466,7 @@ jkl`
             ];
             const parseFn  = parser._parseBlockLevelText.bind(parser);
             const result   = wikitext.map(text => {
-                return parseFn(text, ":;", parser.createDefinitionList);
+                return parseFn(text, ":;", parser.createList);
             });
             const answers  = [
                 `<dl>
