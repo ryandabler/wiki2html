@@ -604,6 +604,46 @@ abd`,
         });
     });
 
+    describe("_parseTextFormats", function() {
+        it("Should convert apostrophes to <i><b> tags", function() {
+            const wikitext = [
+                "''Italic''",
+                "'''Bold'''",
+                "'''''Bold Italic'''''"
+            ];
+            const parseFn  = parser._parseTextFormats.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text);
+            });
+            const answers  = [
+                "<i>Italic</i>",
+                "<b>Bold</b>",
+                "<i><b>Bold Italic</b></i>"
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+
+        it("Should handle apostrophes not in 2, 3, 5 increments", function() {
+            const wikitext = [
+                "''''Bold'''",
+                "''''''Bold Italic''''''"
+            ];
+            const parseFn  = parser._parseTextFormats.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text);
+            });
+            const answers  = [
+                "'<b>Bold</b>",
+                "'<i><b>Bold Italic'</b></i>"
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    });
+
     describe("parse", function() {
         it("Should parse a document", function() {
             const wikitext = `==Abc==
