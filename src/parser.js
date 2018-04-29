@@ -207,6 +207,22 @@ ${listTag(lastElement(lastElement(arr[idx + 1])))}`;
         return wikimarkup.replace(/^(-{4,})(.+)*$/gm, convertToHR);
     }
 
+    _parseTextFormats(wikimarkup) {
+        let text = wikimarkup;
+        const formats = [
+            [5, "<i><b>", "</b></i>"],
+            [3, "<b>", "</b>"],
+            [2, "<i>", "</i>"]
+        ];
+
+        formats.forEach(format => {
+            const regex = new RegExp(`('*)('{${format[0]}}(.+'*)'{${format[0]}})`);
+            text = text.replace(regex, `$1${format[1]}$3${format[2]}`);
+        });
+
+        return text;
+    }
+
     parse(wikimarkup) {
         const document = new Page(wikimarkup);
 
