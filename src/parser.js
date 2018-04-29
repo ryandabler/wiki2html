@@ -239,6 +239,7 @@ ${listTag(lastElement(lastElement(arr[idx + 1])))}`;
         document.html = this._parseBlockLevelText(document.html, "*", this.createList);
         document.html = this._parseBlockLevelText(document.html, ":;", this.createList);
         document.html = this._parseDashLines(document.html);
+        document.html = this._parseTextFormats(document.html);
 
         // Replace placeholders with <pre> and <nowiki> tags
         document.replacePlaceholders();
