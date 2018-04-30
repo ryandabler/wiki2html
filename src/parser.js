@@ -1,6 +1,7 @@
 "use strict";
 
 const { Page } = require("./page");
+const { TableEngine } = require("./tables");
 const { lastElement,
     listTag,
     listItemTag,
@@ -221,6 +222,11 @@ ${listTag(lastElement(lastElement(arr[idx + 1])))}`;
         });
 
         return text;
+    }
+
+    _parseTables(wikimarkup) {
+        const tableEngine = TableEngine();
+        return wikimarkup.replace(/({\|.*)\n*([\s\S]+?)\n*(\|})/, (match, tableStart, body, tableEnd) => tableEngine.createTable(match, tableStart, body, tableEnd));
     }
 
     parse(wikimarkup) {
