@@ -645,7 +645,7 @@ abd`,
     });
 
     describe("_parseTables", function() {
-        it.only("Should create tables", function() {
+        it("Should create tables", function() {
             const wikitext = [
                 `{| class="wikitable"
 | Orange
