@@ -53,7 +53,7 @@ class TableEngine {
     createTableBody(body) {
         // Add newline to body in order to match final row group
         const amendedBody = body + "\n";
-        return amendedBody.replace(/(\|-.*\n)?((?:\|.+?\n)+?)(?=(?:\|-.*|$))/g, this.createTableRow);
+        return amendedBody.replace(/(\|-.*\n)?((?:\|.+?\n)+?)(?=(?:\|-.*|$))/g, (match, rowStart, rowContent) => this.createTableRow(match, rowStart, rowContent));
     }
 
     createTable(match, tableStart, body, tableEnd) {
