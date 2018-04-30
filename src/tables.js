@@ -59,6 +59,7 @@ class TableEngine {
     createTable(match, tableStart, body, tableEnd) {
         const tableOpen = this.createTableStart(tableStart);
         const tableBody = this.createTableBody(body);
-        return tableOpen + tableBody + "</table>";
+        const table = tableOpen + tableBody + "</table>";
+        return table.replace(/\n{2,}/g, "\n");
     }
 }
