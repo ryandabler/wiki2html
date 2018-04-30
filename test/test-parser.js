@@ -644,6 +644,106 @@ abd`,
         });
     });
 
+    describe("_parseTables", function() {
+        it.only("Should create tables", function() {
+            const wikitext = [
+                `{| class="wikitable"
+| Orange
+| Apple
+| style="text-align:right;" | 12,333.00
+|-
+| Bread
+| Pie
+| style="text-align:right;" | 500.00
+|-
+| Butter
+| Ice cream
+| style="text-align:right;" | 1.00
+|}`,
+                `{| class="wikitable"
+| Orange || Apple     || style="text-align:right;" | 12,333.00
+|-
+| Bread || Pie       || style="text-align:right;" | 500.00
+|-
+| Butter || Ice cream || style="text-align:right;" | 1.00
+|}`,
+                `{| class="wikitable"
+| Orange
+| Apple
+| style="text-align:right;"| 12,333.00
+|-
+| Bread
+| Pie
+| style="text-align:right;"| 500.00
+|- style="font-style: italic; color: green;"
+| Butter
+| Ice cream
+| style="text-align:right;"| 1.00
+|}`
+            ];
+            const parseFn  = parser._parseTables.bind(parser);
+            const result   = wikitext.map(text => {
+                return parseFn(text);
+            });
+            const answers  = [
+                `<table class="wikitable">
+<tr>
+<td>Orange</td>
+<td>Apple</td>
+<td style="text-align:right;">12,333.00</td>
+</tr>
+<tr>
+<td>Bread</td>
+<td>Pie</td>
+<td style="text-align:right;">500.00</td>
+</tr>
+<tr>
+<td>Butter</td>
+<td>Ice cream</td>
+<td style="text-align:right;">1.00</td>
+</tr>
+</table>`,
+                `<table class="wikitable">
+<tr>
+<td>Orange</td>
+<td>Apple</td>
+<td style="text-align:right;">12,333.00</td>
+</tr>
+<tr>
+<td>Bread</td>
+<td>Pie</td>
+<td style="text-align:right;">500.00</td>
+</tr>
+<tr>
+<td>Butter</td>
+<td>Ice cream</td>
+<td style="text-align:right;">1.00</td>
+</tr>
+</table>`,
+                `<table class="wikitable">
+<tr>
+<td>Orange</td>
+<td>Apple</td>
+<td style="text-align:right;">12,333.00</td>
+</tr>
+<tr>
+<td>Bread</td>
+<td>Pie</td>
+<td style="text-align:right;">500.00</td>
+</tr>
+<tr style="font-style: italic; color: green;">
+<td>Butter</td>
+<td>Ice cream</td>
+<td style="text-align:right;">1.00</td>
+</tr>
+</table>`
+            ];
+            result.forEach((item, idx) => {
+                expect(item).to.equal(answers[idx]);
+            });
+        });
+    });
+
     describe("parse", function() {
         it("Should parse a document", function() {
             const wikitext = `==Abc==
