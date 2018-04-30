@@ -11,7 +11,7 @@ class TableEngine {
             });
         }
 
-        return table + ">";
+        return table + ">\n";
     }
     
     createRowStart(rowStart) {
@@ -22,14 +22,14 @@ class TableEngine {
         const match = rowStart ? rowStart.match(/\|-\s*(.+)/) : null;
 
         row += match !== null ? ` ${match[1]}>` : ">";
-        return row;
+        return row + "\n";
     }
 
     createRowCell(cell) {
         let td = "<td";
         td += cell.includes("|") ? ` ${cell.split("|")[0].trim()}>${cell.split("|")[1].trim()}` : `>${cell.trim()}`;
         td += "</td>";
-        return td;
+        return td + "\n";
     }
 
     createRowContent(rowContent) {
@@ -47,7 +47,7 @@ class TableEngine {
         let tr = this.createRowStart(rowStart);
         tr += this.createRowContent(rowContent);
         tr += "</tr>";
-        return tr;
+        return tr + "\n";
     }
 
     createTableBody(body) {
