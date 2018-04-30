@@ -63,3 +63,5 @@ class TableEngine {
         return table.replace(/\n{2,}/g, "\n");
     }
 }
+
+module.exports = { TableEngine };
