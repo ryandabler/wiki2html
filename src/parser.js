@@ -225,7 +225,7 @@ ${listTag(lastElement(lastElement(arr[idx + 1])))}`;
     }
 
     _parseTables(wikimarkup) {
-        const tableEngine = TableEngine();
+        const tableEngine = new TableEngine();
         return wikimarkup.replace(/({\|.*)\n*([\s\S]+?)\n*(\|})/, (match, tableStart, body, tableEnd) => tableEngine.createTable(match, tableStart, body, tableEnd));
     }
 
