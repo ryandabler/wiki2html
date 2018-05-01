@@ -39,7 +39,7 @@ class TableEngine {
     createRowContent(rowContent) {
         let td = rowContent;
         if (td.match(/\n/)) {
-            td = rowContent.replace(/(?:\|\|?|!!?)\s*(.*?)\s*(?=(?:\|\||$|\n|!!))/g, (match, cell) => this.createRowCell(cell, match[0]))
+            td = rowContent.replace(/(?:\|\|?|!!?)\s*?(.*?)\s*(?=(?:\|\||$|\n|!!))/g, (match, cell) => this.createRowCell(cell, match[0]))
         } else {
             
         }
