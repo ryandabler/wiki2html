@@ -1,17 +1,8 @@
 class TableEngine {
     createTableStart(tableStart) {
-        let table = "<table";
-        let tableML = tableStart;
-        const regex = /(?:{\|)?\s*([^=]*=".*?")/;
-
-        while (tableML.match(regex)) {
-            tableML = tableML.replace(regex, (match, attrib) => {
-                table += ` ${attrib}`;
-                return "";
-            });
-        }
-
-        return table + ">\n";
+        const match = tableStart.match(/{\|\s*(.+)/);
+        const table = match !== null ? `<table ${match[1]}>` : "<table>";
+        return table + "\n";
     }
     
     createCaption(caption) {
