@@ -14,6 +14,10 @@ class TableEngine {
         return table + ">\n";
     }
     
+    createCellTag(delimiter) {
+        return delimiter === "!" ? "th" : "td";
+    }
+
     createRowStart(rowStart) {
         let row = "<tr";
 
@@ -25,17 +29,17 @@ class TableEngine {
         return row + "\n";
     }
 
-    createRowCell(cell) {
-        let td = "<td";
+    createRowCell(cell, tag) {
+        let td = `<${this.createCellTag(tag)}`;
         td += cell.includes("|") ? ` ${cell.split("|")[0].trim()}>${cell.split("|")[1].trim()}` : `>${cell.trim()}`;
-        td += "</td>";
+        td += `</${this.createCellTag(tag)}>`;
         return td + "\n";
     }
 
     createRowContent(rowContent) {
         let td = rowContent;
         if (td.match(/\n/)) {
-            td = rowContent.replace(/\|\|?\s*(.*?)\s*(?=\|\||$|\n)/g, (match, cell) => this.createRowCell(cell))
+            td = rowContent.replace(/(?:\|\|?|!!?)\s*(.*?)\s*(?=(?:\|\||$|\n|!!))/g, (match, cell) => this.createRowCell(cell, match[0]))
         } else {
             
         }
