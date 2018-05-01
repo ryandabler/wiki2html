@@ -14,6 +14,10 @@ class TableEngine {
         return table + ">\n";
     }
     
+    createCaption(caption) {
+        return `<caption>${caption}</caption>`;
+    }
+
     createCellTag(delimiter) {
         return delimiter === "!" ? "th" : "td";
     }
@@ -57,7 +61,8 @@ class TableEngine {
     createTableBody(body) {
         // Add newline to body in order to match final row group
         const amendedBody = body + "\n";
-        return amendedBody.replace(/(\|-.*\n)?((?:(?:[|!]).*?\n)+?)(?=(?:\|-.*|$))/g, (match, rowStart, rowContent) => this.createTableRow(rowStart, rowContent));
+        return amendedBody.replace(/^(?:\|\+)\s*(.*)/, (match, caption) => this.createCaption(caption))
+            .replace(/(\|-.*\n)?((?:(?:[|!]).*?\n)+?)(?=(?:\|-.*|$))/g, (match, rowStart, rowContent) => this.createTableRow(rowStart, rowContent));
     }
 
     createTable(match, tableStart, body, tableEnd) {
