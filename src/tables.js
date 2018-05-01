@@ -14,13 +14,11 @@ class TableEngine {
     }
 
     createRowStart(rowStart) {
-        let row = "<tr";
-
         // rowStart could be null if we are working with the first
         // row group because the "|-" delimiter is optional
         const match = rowStart ? rowStart.match(/\|-\s*(.+)/) : null;
 
-        row += match !== null ? ` ${match[1]}>` : ">";
+        const row = match !== null ? `<tr ${match[1]}>` : "<tr>";
         return row + "\n";
     }
 
