@@ -645,7 +645,7 @@ abd`,
     });
 
     describe("_parseTables", function() {
-        it("Should create tables", function() {
+        it.only("Should create tables", function() {
             const wikitext = [
                 `{| class="wikitable"
 | Orange
@@ -679,6 +679,28 @@ abd`,
 | Butter
 | Ice cream
 | style="text-align:right;"| 1.00
+|}`,
+                `{|
+|+ Food costs
+! style="text-align:left;"| Item
+! Amount
+! Cost
+|-
+|Orange
+|10
+|7.00
+|-
+|Bread
+|4
+|3.00
+|-
+|Butter
+|1
+|5.00
+|-
+!Total
+|
+|15.00
 |}`
             ];
             const parseFn  = parser._parseTables.bind(parser);
@@ -735,6 +757,34 @@ abd`,
 <td>Butter</td>
 <td>Ice cream</td>
 <td style="text-align:right;">1.00</td>
+</tr>
+</table>`,
+                `<table>
+<caption>Food costs</caption>
+<tr>
+<th style="text-align:left;">Item</th>
+<th>Amount</th>
+<th>Cost</th>
+</tr>
+<tr>
+<td>Orange</td>
+<td>10</td>
+<td>7.00</td>
+</tr>
+<tr>
+<td>Bread</td>
+<td>4</td>
+<td>3.00</td>
+</tr>
+<tr>
+<td>Butter</td>
+<td>1</td>
+<td>5.00</td>
+</tr>
+<tr>
+<th>Total</th>
+<td></td>
+<td>15.00</td>
 </tr>
 </table>`
             ];
